@@ -1,713 +1,181 @@
 <script>
   import * as THREE from "../build/three.module";
   import { onMount, tick } from "svelte";
-  import { GLTFLoader } from "../js/GLTFLoader";
-  import { OrbitControls } from "../js/OrbitControls";
-  import { TWEEN } from "../js/tween.module.min.js";
-  import { FlyControls } from "../js/FlyControls.js";
-  import SimpleModal from "./components/modal/index.svelte";
-  import { OutlinePass } from "../js/bloomEffect/OutlinePass.js";
-  import { OutputPass } from "../js/bloomEffect/OutputPass.js";
 
-  // import { OBJLoader } from './js/OBJLoader.js';
-  import { EffectComposer } from "../js/EffectComposer.js";
-  import { RenderPass } from "../js/RenderPass.js";
-  import { ShaderPass } from "../js/bloomEffect/ShaderPass.js";
-  import { CopyShader } from "../js/bloomEffect/CopyShader.js";
-  import { FXAAShader } from "../js/bloomEffect/FXAAShader.js";
-  import { GUI } from "../js/lil-gui.module.min.js";
-  import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer.js";
+  import { Viewer } from "./lib/scene-config/viewer";
+  import queryString from "../js/query-string-main/index.js";
+  import WebGL from "../js/WebGL.js";
 
-  let canvas, renderer;
-  let controls;
-  let controls2;
-  let loader;
   let scene;
-  let camera;
-  let clock;
-  let fittingRoom;
-  let shirt;
-  let points = [];
-  let xCenterBox, yCenterBox, zCenterBox;
-  let distanceXOfbox, distanceYOfbox, distanceZOfbox;
-  let boxHelper;
-  let raycaster = new THREE.Raycaster();
-  let mouse = new THREE.Vector2();
-  let helper;
-  let iron;
-  let boxHover;
-  let shirtHover = null;
-  let simpleModalRef;
-  let showModal;
-  let groupShirt;
-  let moveCameraClick = true;
-  let isUserInteracting = false,
-    onPointerDownMouseX = 0,
-    onPointerDownMouseY = 0,
-    lon = 0,
-    onPointerDownLon = 0,
-    lat = 0,
-    onPointerDownLat = 0,
-    phi = 0,
-    theta = 0;
-  let controlCamera = false;
-  let startTime, endTime;
-  let composer, effectFXAA, outlinePass;
-  startTime = new Date();
-  let labelRenderer;
-  let selectedObjects = [];
-  let cssRenderer;
-  let textButtonView = "Go to Mall";
-  const params = {
-    edgeStrength: 3.0,
-    edgeGlow: 0.0,
-    edgeThickness: 1.0,
-    pulsePeriod: 0,
-    rotate: false,
-    usePatternTexture: false,
-  };
-  let isGoMallMode = false;
-  $: console.log("selectedObjects: ", selectedObjects);
+  // let fittingRoomPath = "src/models/thoitrang_nam_1fittingroom.gltf";
+  let fittingRoomPath = "src/assets/models/temple/scene.gltf";
 
-  // get seconds
-  let seconds = Math.round(startTime);
+  let viewer;
+  let canvas;
 
-  const widthScreen = window.innerWidth;
-  const heightScreen = window.innerHeight;
+  let options;
+  window.VIEWER = {};
 
-  $: console.log("shirtHover: ", shirtHover);
+  $: console.log("canvas: ", canvas);
+  $: console.log("viewer: ", viewer);
+  if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
+    console.error("The File APIs are not fully supported in this browser.");
+  } else if (!WebGL.isWebGLAvailable()) {
+    console.error("WebGL is not supported in this browser.");
+  }
   const init = () => {
-    let path = "src/assets/cube-screen/";
-    let format = ".jpg";
-    let urls = [
-      path + "pano_r" + format,
-      path + "pano_l" + format,
-      path + "pano_u" + format,
-      path + "pano_d" + format,
-      path + "pano_f" + format,
-
-      path + "pano_b" + format,
-    ];
-    camera = new THREE.PerspectiveCamera(
-      70,
-      widthScreen / heightScreen,
-      0.1,
-      1000
-    );
-    scene = new THREE.Scene();
-    // camera.position.set(12, 5, 5);
-    camera.position.set(0, 10, 10);
-
-    camera.lookAt(1, 0, 0);
-    //create ground
-    const planeMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(400, 200),
-      new THREE.MeshBasicMaterial({
-        color: 0x6f7a73,
-        side: THREE.DoubleSide,
-        visible: false,
-      })
-    );
-
-    planeMesh.rotateX(Math.PI / 2);
-    planeMesh.name = "ground";
-    planeMesh.position.set(0, 0.2, 0);
-
-    scene.add(planeMesh);
-
-    const visiablePlane = new THREE.Mesh(
-      new THREE.PlaneGeometry(400, 200),
-      new THREE.MeshBasicMaterial({
-        color: 0x6f7a73,
-        side: THREE.DoubleSide,
-        visible: true,
-      })
-    );
-
-    visiablePlane.rotateX(Math.PI / 2);
-    visiablePlane.name = "ground";
-    visiablePlane.position.set(0, 0, 0);
-
-    scene.add(visiablePlane);
-
-    clock = new THREE.Clock();
-    const Camhelper = new THREE.CameraHelper(camera);
-    // scene.add(Camhelper);
-
-    // scene.background = reflectionCube;
-    scene.background = new THREE.Color(0xffffff);
-    //Load background texture
-    const mainBackground = new THREE.TextureLoader();
-    mainBackground.load("src/assets/star-sky.jpg", function (texture) {
-      scene.background = texture;
-    });
-
-    const light1 = new THREE.AmbientLight(0xffffff, 1);
-    light1.name = "ambient_light";
-    scene.add(light1);
-
-    const light = new THREE.DirectionalLight(0xffffff, 0.8 * Math.PI);
-    scene.add(light);
-
-    const hemiLight = new THREE.HemisphereLight();
-
-    scene.add(hemiLight);
-    renderer = new THREE.WebGLRenderer({ canvas });
-    // renderer.setSize(1306, 308);
-
-    renderer.setSize(widthScreen, heightScreen);
-
-    controls = new OrbitControls(camera, renderer.domElement);
-    controls.enabled = false ? isGoMallMode : true;
-    controls.maxPolarAngle = 1.0;
-    controls.minPolarAngle = -0.5;
-
-    controls2 = new FlyControls(camera, renderer.domElement);
-    controls2.movementSpeed = 10;
-
-    let container = document.getElementById("container");
-    loader = new GLTFLoader();
-
-    //Pointer
-    //Pointer
-    let geometryHelper = new THREE.CircleGeometry(0.3, 10000);
-    geometryHelper.translate(0, 0, 0.01);
-    const marker = new THREE.TextureLoader().load("src/assets/marker.png");
-
-    let rollOverMaterial = new THREE.MeshBasicMaterial({
-      map: marker,
-      color: 0x00000,
-      flatShading: true,
-      transparent: true,
-      opacity: 0.7,
-    });
-    // let rollOverMaterial = new THREE.MeshBasicMaterial( {  color: 0xff0000, flatShading: true, transparent: true, opacity: 0.7 } );
-
-    helper = new THREE.Mesh(geometryHelper, rollOverMaterial);
-
-    loader.load(
-      "src/models/shirt.gltf",
-      function (gltf) {
-        shirt = gltf.scene;
-        // shirt.scale.set(0.5, 0.5, 0.5);
-        // boxHelper = new THREE.BoxHelper(fittingRoom, 0xff0000);
-
-        // scene.add(boxHelper);
-        // getBoxObject(boxHelper);
-        // boxHelper.position.y = -distanceYOfbox / 2;
-        // boxHelper.position.x = -distanceXOfbox / 2;
-        // fittingRoom.position.y = distanceYOfbox / 2;
-        // fittingRoom.position.x = -distanceXOfbox / 2;
-        // fittingRoom.position.z = distanceZOfbox / 2;
-        shirt.name = "shirt";
-        shirt.position.set(1, 0, 1);
-        outlinePass.selectedObjects = shirt;
-        scene.add(shirt);
-
-        gltf.scene.traverse(function (child) {
-          if (child.isMesh) {
-            // console.log("in child.name: ", child.name);
-            // const groupShirt = new THREE.Group();
-            // groupShirt.add(child);
-            // groupShirt.name = "shirt";
-            // scene.add(groupShirt);
-          }
-        });
-      },
-      undefined,
-      function (error) {
-        console.error(error);
-      }
-    );
-
-    loader.load(
-      "src/models/fittting-room.gltf",
-      function (gltf) {
-        fittingRoom = gltf.scene;
-        fittingRoom.scale.set(0.5, 0.5, 0.5);
-        boxHelper = new THREE.BoxHelper(fittingRoom, 0xff0000);
-
-        // scene.add(boxHelper);
-        getBoxObject(boxHelper);
-        // boxHelper.position.y = -distanceYOfbox / 2;
-        // boxHelper.position.x = -distanceXOfbox / 2;
-        fittingRoom.position.y = distanceYOfbox / 2;
-        fittingRoom.position.x = -distanceXOfbox / 2;
-        fittingRoom.position.z = distanceZOfbox / 2;
-
-        scene.add(fittingRoom);
-
-        gltf.scene.traverse(function (child) {
-          if (child.isMesh) {
-          }
-        });
-      },
-      undefined,
-      function (error) {
-        console.error(error);
-      }
-    );
-    // postprocessing
-
-    composer = new EffectComposer(renderer);
-
-    const renderPass = new RenderPass(scene, camera);
-    composer.addPass(renderPass);
-
-    outlinePass = new OutlinePass(
-      new THREE.Vector2(window.innerWidth, window.innerHeight),
-      scene,
-      camera
-    );
-
-    composer.addPass(outlinePass);
-
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load("./images/tri_pattern.jpg", function (texture) {
-      outlinePass.patternTexture = texture;
-      texture.wrapS = THREE.RepeatWrapping;
-      texture.wrapT = THREE.RepeatWrapping;
-    });
-    const outputPass = new OutputPass();
-    composer.addPass(outputPass);
-
-    effectFXAA = new ShaderPass(FXAAShader);
-    effectFXAA.uniforms["resolution"].value.set(
-      1 / window.innerWidth,
-      1 / window.innerHeight
-    );
-    composer.addPass(effectFXAA);
-
-    const gui = new GUI({ width: 280 });
-
-    gui.add(params, "edgeStrength", 0.01, 10).onChange(function (value) {
-      outlinePass.edgeStrength = Number(value);
-    });
-
-    gui.add(params, "edgeGlow", 0.0, 1).onChange(function (value) {
-      outlinePass.edgeGlow = Number(value);
-    });
-
-    gui.add(params, "edgeThickness", 1, 4).onChange(function (value) {
-      outlinePass.edgeThickness = Number(value);
-    });
-
-    gui.add(params, "pulsePeriod", 0.0, 5).onChange(function (value) {
-      outlinePass.pulsePeriod = Number(value);
-    });
-
-    gui.add(params, "rotate");
-
-    gui.add(params, "usePatternTexture").onChange(function (value) {
-      outlinePass.usePatternTexture = value;
-    });
-
-    function Configuration() {
-      this.visibleEdgeColor = "#ffffff";
-      this.hiddenEdgeColor = "#190a05";
-    }
-
-    const conf = new Configuration();
-
-    gui.addColor(conf, "visibleEdgeColor").onChange(function (value) {
-      outlinePass.visibleEdgeColor.set(value);
-    });
-
-    gui.addColor(conf, "hiddenEdgeColor").onChange(function (value) {
-      outlinePass.hiddenEdgeColor.set(value);
-    });
-
-    function addSelectedObject(object) {
-      selectedObjects = [];
-      selectedObjects.push(shirt);
-      outlinePass.selectedObjects = selectedObjects;
-    }
-
-    const hoverObject = (event) => {
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      raycaster.setFromCamera(mouse, camera);
-      let intersects = raycaster.intersectObject(scene, true);
-
-      if (intersects.length > 0) {
-        console.log("hover: ", intersects);
-        const selectedObject = intersects[0].object;
-        console.log("selectedObject: ", selectedObject);
-        // addSelectedObject(selectedObject);
-        outlinePass.selectedObjects = selectedObject;
-        // intersects.map((model) => {
-        //   console.log("model.object.name: ", model);
-        //   if (model.object.name == "mesh_0" && shirtHover == null) {
-        //     console.log("objecttt inn");
-        //     console.log("model object: ", model.object);
-        //     shirtHover = new THREE.BoxHelper(model.object, 0xff0000);
-        //     console.log("in BoxHover 1: ", shirtHover.object.name);
-        //     // shirtHover.update();
-        //     scene.add(shirtHover);
-        //     // scene.remove(helper);
-        //     getBoxObject(shirtHover);
-        //   } else {
-        //     console.log("objecttt out");
-        //     scene.remove(shirtHover);
-        //     shirtHover = null;
-        //   }
-        // });
-      }
+    const hash = location.hash ? queryString.parse(location.hash) : {};
+    console.log("hasssh: ", hash, location);
+    options = {
+      kiosk: Boolean(hash.kiosk),
+      model: hash.model || "",
+      preset: hash.preset || "",
+      cameraPosition: hash.cameraPosition
+        ? hash.cameraPosition.split(",").map(Number)
+        : null,
     };
+    // canvas.width = window.innerWidth; // Set width to full window width
+    // canvas.height = window.innerHeight; // Set height to full window height
+    let container = document.getElementById("container");
 
-    // Create CSS2DRenderer
-    // cssRenderer = new CSS2DRenderer();
-    // cssRenderer.setSize(window.innerWidth, window.innerHeight);
-    // document.body.appendChild(cssRenderer.domElement);
+    scene = new THREE.Scene();
+    viewer = new Viewer(container, options);
+    loadModel(fittingRoomPath);
 
-    // // Create a button as a CSS2DObject
-    // const button = createButton("Click me!", () => {
-    //   console.log("Button clicked!");
-    // });
-    // button.position.set(0, 0, 0); // Adjust the position in 3D space
-    // scene.add(button);
+    // //create planeMesh
+    // const visiablePlane = new THREE.Mesh(
+    //   new THREE.PlaneGeometry(400, 200),
+    //   new THREE.MeshBasicMaterial({
+    //     color: 0x6f7a73,
+    //     side: THREE.DoubleSide,
+    //     visible: true,
+    //   })
+    // );
 
-    container.addEventListener("pointerdown", onPointerDown);
-    container.addEventListener("pointermove", hoverObject, false);
+    // visiablePlane.rotateX(Math.PI / 2);
+    // visiablePlane.name = "ground";
+    // visiablePlane.position.set(0, -3.5, 0);
 
-    container.addEventListener("pointermove", onPointerMoveMouse, false);
+    // viewer.createObject(visiablePlane);
+
+    const mainLayer = document.getElementById("main");
+    // Create a new child element
+    const canvasThree = viewer.rendererDom();
+    // Get the first child of the parent
+    const canvas = mainLayer.firstChild;
+    // Insert the new child before the first child
+    mainLayer.insertBefore(canvasThree, canvas);
+
+    const axesLayer = viewer.axesDom();
+    mainLayer.insertBefore(axesLayer, canvas);
+    const guiLayer = viewer.guiDom();
+    mainLayer.insertBefore(guiLayer, canvas);
   };
 
-  // const createButton = (text, onClick) => {
-  //   const buttonElement = document.createElement("button");
-  //   buttonElement.textContent = text;
-  //   buttonElement.addEventListener("click", onClick);
+  function loadModel(path) {
+    console.log("vao load 1");
+    view(path);
+    // sendData()
+  }
 
-  //   const buttonObject = new CSS2DObject(buttonElement);
-  //   return buttonObject;
-  // };
-  function getBoxObject(boxHelper) {
-    for (var i = 0; i < 8; ++i) {
-      var x = boxHelper.geometry.attributes.position.getX(i);
-      var y = boxHelper.geometry.attributes.position.getY(i);
-      var z = boxHelper.geometry.attributes.position.getZ(i);
-      points.push({ x: x, y: y, z: z });
+  /**
+   * @param  {Error} error
+   */
+  function onError(error) {
+    let message = (error || {}).message || error.toString();
+    if (message.match(/ProgressEvent/)) {
+      message =
+        "Unable to retrieve this file. Check JS console and browser network tab.";
+    } else if (message.match(/Unexpected token/)) {
+      message = `Unable to parse file content. Verify that this file is valid. Error: "${message}"`;
+    } else if (error && error.target && error.target instanceof Image) {
+      message = "Missing texture: " + error.target.src.split("/").pop();
     }
-    distanceXOfbox = new THREE.Vector3(
-      points[0].x,
-      points[0].y,
-      points[0].z
-    ).distanceTo(new THREE.Vector3(points[1].x, points[1].y, points[1].z));
-    distanceYOfbox = new THREE.Vector3(
-      points[1].x,
-      points[1].y,
-      points[1].z
-    ).distanceTo(new THREE.Vector3(points[2].x, points[2].y, points[2].z));
-    distanceZOfbox = new THREE.Vector3(
-      points[1].x,
-      points[1].y,
-      points[1].z
-    ).distanceTo(new THREE.Vector3(points[5].x, points[5].y, points[5].z));
-
-    console.log("vi tri y getbox la: ", points[1].x, points[1].y, points[1].z);
-    console.log(
-      "vi tri y getbox 2 la: ",
-      points[2].x,
-      points[2].y,
-      points[2].z
-    );
-    //get center Point of BoxHelper
-
-    xCenterBox = (points[0].x + points[1].x) / 2;
-    yCenterBox = (points[1].y + points[2].y) / 2;
-    // z_centerBox = (points[3].z+ points[4].z)/2
-    zCenterBox = (points[2].z + points[6].z) / 2;
-  }
-  function onPointerDown(event) {
-    if (event.isPrimary === false) return;
-
-    moveCameraClick = false;
-
-    onPointerDownMouseX = event.clientX;
-    onPointerDownMouseY = event.clientY;
-
-    onPointerDownLon = lon;
-    onPointerDownLat = lat;
-    document.addEventListener("pointermove", onPointerMove);
-    document.addEventListener("pointerup", onPointerUp);
-    scene.remove(helper);
+    window.alert(message);
+    console.error(error);
   }
 
-  function onPointerMove(event) {
-    if (event.isPrimary === false) return;
-    lon = (onPointerDownMouseX - event.clientX) * 0.1 + onPointerDownLon;
-    lat = (event.clientY - onPointerDownMouseY) * 0.1 + onPointerDownLat;
-  }
+  function view(path) {
+    let fileURL = path;
+    viewer
+      .load(fileURL)
 
-  //icon chuột hover
-  function onPointerMoveMouse(event) {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera);
-
-    let intersects = raycaster.intersectObjects(scene.children, true);
-
-    if (intersects.length > 0) {
-      helper.position.set(0, 0, 0);
-      // console.log('in intersects[0]: ',intersects[ 0 ])
-      // helper.lookAt( intersects[ 0 ].face.area );
-      if (intersects[0].face.normal === null) {
-      } else {
-        helper.lookAt(intersects[0].face.normal);
-      }
-
-      // helper.lookAt( intersects[ 0 ].object.isObject3D );
-
-      helper.position.copy(intersects[0].point);
-      scene.add(helper);
-    }
-  }
-
-  function onPointerUp() {
-    if (event.isPrimary === false) return;
-    // isUserInteracting = false;
-
-    document.removeEventListener("pointermove", onPointerMove);
-
-    document.removeEventListener("pointerup", onPointerUp);
-  }
-
-  //Di chuyển trên sàn
-  function startTimer() {
-    //rotation_speed = 0;
-    startTime = new Date();
-    moveCameraClick = true;
-    scene.remove(helper);
-    event.preventDefault();
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-
-    //let intersects = raycaster.intersectObjects( scene.children, true );
-  }
-  function moveCamera(event) {
-    endTime = new Date();
-    let timeDiff = endTime - startTime; //in ms
-    // strip the ms
-    timeDiff /= 500;
-
-    // get seconds
-    seconds = Math.round(timeDiff);
-    console.log(seconds + " seconds");
-
-    event.preventDefault();
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-
-    let intersects = raycaster.intersectObjects(scene.children, true);
-    if (moveCameraClick == true) {
-      if (intersects.length > 0) {
-        let clickedName = intersects[0].object.name;
-        let selectedObject = intersects[0].object;
-        console.log("in clickedName: ", clickedName);
-        console.log("in seconds: ", seconds);
-        console.log(
-          "in intersects[0].object.isObject3D: ",
-          intersects[0].object.isObject3D
-        );
-        if (
-          intersects[0].object.isObject3D &&
-          seconds < 0.05 &&
-          clickedName === "ground" &&
-          isGoMallMode == true
-        ) {
-          console.log("Dang vao duoc dieu huong");
-          let coords = {
-            x: camera.position.x,
-            y: camera.position.y,
-            z: camera.position.z,
-          };
-          console.log("x pos: ", intersects[0].point.x);
-          new TWEEN.Tween(coords)
-            .to({
-              x: intersects[0].point.x,
-              y: 0.5,
-              z: intersects[0].point.z,
-            })
-            .onUpdate(() => camera.position.set(coords.x, coords.y, coords.z))
-            .start();
-          // controls.enabled = false;
-          // isUserInteracting = true;
-          // controlCamera = true;
-        } else {
-          console.log("Ko Dang vao duoc dieu huong");
+      .catch((e) => {
+        console.log("err: ", e);
+        return onError(e);
+      })
+      .then((gltf) => {
+        if (!options.kiosk) {
+          // this.validationCtrl.validate(fileURL, rootPath, fileMap, gltf);
         }
-      }
-    }
-  }
-
-  function updateCameraOrbit() {
-    // Update OrbitControls target to a point just in front of the camera
-
-    var forward = new THREE.Vector3();
-    camera.getWorldDirection(forward);
-
-    // controls.target.copy(camera.position).add(forward);
-  }
-
-  const animate = () => {
-    requestAnimationFrame(animate);
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
-    // camera.position.y = 0.5;
-    update();
-    TWEEN.update();
-    composer.render();
-    // controls.addEventListener("end", () => {
-    //   updateCameraOrbit();
-    // });
-
-    // cssRenderer.render(scene, camera);
-
-    controls2.update(clock.getDelta());
-    renderer.render(scene, camera);
-  };
-  function onWindowResize() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    // widthTest
-    // heightTest    camera.aspect = widthScreen / heightScreen;
-
-    camera.updateProjectionMatrix();
-    composer.setSize(width, height);
-
-    effectFXAA.uniforms["resolution"].value.set(
-      1 / window.innerWidth,
-      1 / window.innerHeight
-    );
-    renderer.setSize(widthScreen, heightScreen);
-  }
-
-  function update() {
-    if (isUserInteracting === false) {
-      lon += 0.03;
-    }
-
-    if (controlCamera === true) {
-      // console.log(' da vao controlCamera: ',controlCamera)
-
-      lat = Math.max(-120, Math.min(120, lat));
-      phi = THREE.MathUtils.degToRad(90 - lat);
-      theta = THREE.MathUtils.degToRad(lon);
-
-      let x = 500 * Math.sin(phi) * Math.cos(theta);
-      let y = 500 * Math.cos(phi);
-      let z = 500 * Math.sin(phi) * Math.sin(theta);
-
-      camera.lookAt(x, y, z);
-
-      //Tính phi, theta, lat
-      //499.85707270112397 3.061616997868383e-14 -11.9543661757237
-      //x=1, y = 0, z = -0.0239
-      //phi = pi/2 = 1.570795
-      //theta = 0
-      //lon = 0
-      //lat = 0
-      console.log("x, y, z: ", x, y, z);
-
-      renderer.render(scene, camera);
-    }
-  }
-  const getNameObject = () => {
-    // showModal = true;
-    let intersects = raycaster.intersectObjects(scene.children, true);
-    // let clickedName = intersects[0].object;
-    // console.log("clickedName22: ", clickedName);
-    // if (clickedName == "mesh_0") {
-    //   boxHover = new THREE.BoxHelper(intersects[0].object, 0xff0000);
-    //   console.log("in BoxHover 1: ", boxHover.object.name);
-    //   // boxHover.update();
-    //   scene.add(boxHover);
-    // }
-  };
-
-  const showInfoModel = () => {};
-
-  const closeInfomodel = () => {};
-
-  function onOverViewButton() {
-    isGoMallMode = !isGoMallMode;
-    if (isGoMallMode) {
-      isUserInteracting = true;
-      controlCamera = true;
-      controls.enabled = false;
-      let coords = {
-        x: 0,
-        y: 10,
-        z: 10,
-      };
-      new TWEEN.Tween(coords)
-        .to(
-          {
-            x: 0, // Lùi ra phía sau tòa nhà
-            y: 1,
-            z: 5,
-          },
-          1000
-        )
-        .onUpdate(() => {
-          camera.position.set(coords.x, coords.y, coords.z); // Từ vị trí đâu xuống
-          // camera.lookAt(1, 0, 0);
-          return camera;
-        })
-        .start();
-    } else {
-      isUserInteracting = false;
-      controlCamera = false;
-    }
+        console.log("gltff: ", gltf);
+        // cleanup();
+      });
+    // console.log('in rootPath: ',rootPath)
+    // console.log('in fileMap: ',fileMap)
   }
 
   onMount(() => {
     init();
-    animate();
-
-    window.addEventListener("resize", onWindowResize);
   });
 </script>
 
 <div class="view-button">
-  <button
+  <!-- <button
     style="--focus-color: {isGoMallMode
       ? '#1d6291'
       : '#1f9bed'}; --focus-border: {isGoMallMode ? '2px solid blue' : 'none'}"
     on:click={onOverViewButton}>{textButtonView}</button
-  >
+  > -->
 </div>
-<main>
-  <canvas
-    class="full-screen"
-    id="container"
-    bind:this={canvas}
-    on:mouseup={moveCamera}
-    on:mousedown={startTimer}
-    on:click={getNameObject}
-  >
-  </canvas>
+<main id="main">
+  <canvas class="full-screen" id="container" bind:this={canvas}> </canvas>
 </main>
 
-<SimpleModal
+<!-- <SimpleModal
   bind:this={simpleModalRef}
-  heightSize={"150px"}
+  heightSize={"250px"}
   on:clickButton={showInfoModel}
   on:closeButton={closeInfomodel}
   saveButtonName={"Save AA"}
   bind:showModal
 >
-  <div slot="content">hihi</div>
-</SimpleModal>
+  <div slot="content">
+    <div>
+      Áo Thun Trơn Áo Phông Trắng Đen Xám Nam Nữ Form Xuông Vải Dày Mịn Không Xù
+      Lông
+    </div>
+    <div class="detail-product">
+      <Split initialPrimarySize="70%">
+        <div slot="primary" class="left-content">
+          <div>Price</div>
+          <div>About Product</div>
+          <div>Orgin</div>
+          <div>Color</div>
+          <div>Size</div>
+        </div>
+        <div slot="secondary" class="right-content">haha</div>
+      </Split>
+    </div>
+  </div>
+</SimpleModal> -->
 
 <style>
-  .full-screen {
+  #container {
+  }
+  #main {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    position: absolute;
+    top: 0;
+    z-index: 0;
+  }
+  /* .full-screen {
     margin: 0 !important;
     padding: 0 !important;
-  }
+  } */
 
   .view-button {
     left: 50%;
@@ -731,5 +199,19 @@
 
   button:hover {
     background-color: #74b9e7;
+  }
+
+  .left-content {
+    /* height: 100%; */
+  }
+
+  .right-content {
+    /* height: 100%; */
+  }
+
+  .detail-product {
+    /* width: 100%;
+    position: absolute;
+    height: 100%; */
   }
 </style>

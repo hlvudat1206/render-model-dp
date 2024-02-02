@@ -115,3 +115,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+/* add Gui style */
+.gui-wrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.gui-wrap>.main {
+  pointer-events: all;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.axes {
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+  padding: 0px;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  z-index: 10;
+  pointer-events: none;
+}
