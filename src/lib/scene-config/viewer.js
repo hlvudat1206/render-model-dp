@@ -77,7 +77,7 @@ export class Viewer {
       environment:
         options.preset === Preset.ASSET_GENERATOR
           ? environments.find((e) => e.id === "footprint-court").name
-          : environments[1].name,
+          : environments[3].name,
       background: false,
       playbackSpeed: 1.0,
       actionStates: {},

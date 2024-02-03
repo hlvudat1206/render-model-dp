@@ -7,8 +7,7 @@
   import WebGL from "../js/WebGL.js";
 
   let scene;
-  // let fittingRoomPath = "src/models/thoitrang_nam_1fittingroom.gltf";
-  let fittingRoomPath = "src/assets/models/temple/scene.gltf";
+  let fittingRoomPath = "src/models/motorcycle/honda/motorbike.gltf";
 
   let viewer;
   let canvas;
