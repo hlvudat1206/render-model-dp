@@ -72,6 +72,7 @@ export class Viewer {
     this.mixer = null;
     this.clips = [];
     this.gui = null;
+    this.interactObject = null;
 
     this.state = {
       environment:
@@ -98,6 +99,7 @@ export class Viewer {
       bgColor1: "#ffffff",
       bgColor2: "#353535",
     };
+
     //new variable
 
     this.raycaster = new THREE.Raycaster();
@@ -184,6 +186,7 @@ export class Viewer {
     window.addEventListener("resize", this.resize.bind(this), false);
 
     this.onWindowResize();
+    // window.addEventListener("click", this.interactiveObject.bind(this), false);
   }
   init() {}
 
@@ -197,6 +200,22 @@ export class Viewer {
 
   guiDom() {
     return this.guiWrap;
+  }
+
+  interactiveObject() {
+    console.log("this 1: ", this.raycaster);
+    this.raycaster.setFromCamera(this.mouse, this.defaultCamera);
+
+    const intersects = this.raycaster.intersectObject(this.scene, true);
+    if (intersects.length > 0) {
+      const selectedObject = intersects[0].object;
+
+      console.log("selectObject: ", selectedObject);
+      console.log("intersects[0]: ", intersects[0]);
+      console.log("object can: ", selectedObject.parent.children[1]);
+      this.interactObject = selectedObject.parent.children[1];
+    }
+    return this.interactObject;
   }
 
   onWindowResize() {

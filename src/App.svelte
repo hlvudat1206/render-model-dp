@@ -13,7 +13,8 @@
   let canvas;
 
   let options;
-  let onMenu = true;
+  let onMenu = false;
+  let clickMenu = false;
   let colorArr = [
     {
       id: 1,
@@ -41,15 +42,26 @@
       color: "#0000ff",
     },
     {
-      id: 1,
+      id: 6,
       name: "Green",
-      color: "#008000 ",
+      color: "#008000",
+    },
+    {
+      id: 7,
+      name: "black",
+      color: "#000000",
+    },
+    {
+      id: 7,
+      name: "blue & black",
+      color: "#043561",
     },
   ];
   window.VIEWER = {};
 
   $: console.log("canvas: ", canvas);
   $: console.log("viewer: ", viewer);
+
   if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
     console.error("The File APIs are not fully supported in this browser.");
   } else if (!WebGL.isWebGLAvailable()) {
@@ -112,6 +124,9 @@
     mainLayer.insertBefore(guiLayer, canvas);
   };
 
+  function getInteractive() {
+    console.log("viewer.interactiveObject(): ", viewer.interactiveObject());
+  }
   function loadModel(path) {
     console.log("vao load 1");
     view(path);
@@ -158,6 +173,21 @@
   const onColorArea = () => {
     console.log("ôkokokoko");
     onMenu = !onMenu;
+    clickMenu = !clickMenu;
+  };
+
+  const interactObject = () => {
+    console.log("clikkkkk");
+    console.log("call interact: ", viewer.interactiveObject());
+  };
+
+  const changeColorObject = (item) => {
+    console.log("eeee is: ", item.color);
+    if (viewer.interactiveObject()) {
+      viewer.interactiveObject().material.color.set(item.color);
+    }
+
+    //interactive
   };
   onMount(() => {
     init();
@@ -173,10 +203,15 @@
   > -->
 </div>
 
-<main id="main">
+<main id="main" on:click={interactObject}>
   <canvas class="full-screen" id="container" bind:this={canvas}> </canvas>
   <div class="header" id="header">
-    <div class="menu-header" on:click={onColorArea}>Đổi màu</div>
+    <div
+      class="menu-header {clickMenu ? 'menu-header-activing' : ''}"
+      on:click={onColorArea}
+    >
+      Đổi màu
+    </div>
     <div class="menu-header">Kính lúp</div>
     <div class="menu-header">Thử nghiệm</div>
     <div class="menu-header">Mini game</div>
@@ -186,7 +221,11 @@
     <aside class:onMenu>
       <div class="card">
         {#each colorArr as items, index}
-          <div class="color-card" style="background-color:{items.color}"></div>
+          <div
+            class="color-card"
+            style="background-color:{items.color}"
+            on:click={() => changeColorObject(items)}
+          ></div>
         {/each}
       </div>
     </aside>
@@ -229,6 +268,11 @@
   }
   .menu-header:hover {
     cursor: pointer;
+  }
+
+  .menu-header-activing {
+    border-radius: 6px;
+    border: 0.25px solid black;
   }
 
   .header {
