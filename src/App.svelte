@@ -13,6 +13,39 @@
   let canvas;
 
   let options;
+  let onMenu = true;
+  let colorArr = [
+    {
+      id: 1,
+      name: "Default",
+      color: "#ffffff",
+    },
+    {
+      id: 2,
+      name: "Pink",
+      color: "#ffc0cb",
+    },
+    {
+      id: 3,
+      name: "Red",
+      color: "#ff0000",
+    },
+    {
+      id: 4,
+      name: "Yellow",
+      color: "#ffff00",
+    },
+    {
+      id: 5,
+      name: "Blue",
+      color: "#0000ff",
+    },
+    {
+      id: 1,
+      name: "Green",
+      color: "#008000 ",
+    },
+  ];
   window.VIEWER = {};
 
   $: console.log("canvas: ", canvas);
@@ -59,6 +92,7 @@
 
     const mainLayer = document.getElementById("main");
     let headerField = document.getElementById("header");
+    let contentField = document.getElementById("content");
 
     // Create a new child element
 
@@ -68,6 +102,7 @@
     const canvas = mainLayer.firstChild;
     // Insert the new child before the first child
     mainLayer.insertBefore(headerField, canvas);
+    mainLayer.insertBefore(contentField, canvas);
 
     mainLayer.insertBefore(canvasThree, canvas);
 
@@ -120,6 +155,10 @@
     // console.log('in fileMap: ',fileMap)
   }
 
+  const onColorArea = () => {
+    console.log("ôkokokoko");
+    onMenu = !onMenu;
+  };
   onMount(() => {
     init();
   });
@@ -137,11 +176,20 @@
 <main id="main">
   <canvas class="full-screen" id="container" bind:this={canvas}> </canvas>
   <div class="header" id="header">
-    <div class="menu-header">Đổi màu</div>
+    <div class="menu-header" on:click={onColorArea}>Đổi màu</div>
     <div class="menu-header">Kính lúp</div>
     <div class="menu-header">Thử nghiệm</div>
     <div class="menu-header">Mini game</div>
     <div class="menu-header">Câu chuyện</div>
+  </div>
+  <div class="content" id="content">
+    <aside class:onMenu>
+      <div class="card">
+        {#each colorArr as items, index}
+          <div class="color-card" style="background-color:{items.color}"></div>
+        {/each}
+      </div>
+    </aside>
   </div>
 </main>
 
@@ -253,5 +301,46 @@
     bottom: 20px;
     transform: translate(-50%, -50%);
     z-index: 1000; /* Ensure the button appears on top of the canvas */
+  }
+
+  aside {
+    position: absolute;
+    left: -500px;
+    transition: all 0.5s;
+
+    height: 60%;
+    width: 20%;
+    top: 20%;
+    border: 1px solid #ddd;
+    /* background-color: #ffe7e7; */
+    border-radius: 12px;
+
+    display: flex;
+    justify-content: space-between;
+    background-color: lightblue;
+  }
+
+  .onMenu {
+    left: 0px;
+  }
+
+  .card {
+    display: flex;
+    position: absolute;
+    height: 50%;
+    flex-wrap: wrap;
+  }
+
+  .color-card {
+    padding: 30px;
+    /* border: 1px solid #000000; */
+    margin: 10px;
+    background-color: red;
+    border-radius: 6px;
+  }
+
+  .color-card:hover {
+    box-shadow: 0 0 8px black;
+    cursor: pointer;
   }
 </style>
