@@ -58,11 +58,17 @@
     // viewer.createObject(visiablePlane);
 
     const mainLayer = document.getElementById("main");
+    let headerField = document.getElementById("header");
+
     // Create a new child element
+
     const canvasThree = viewer.rendererDom();
+
     // Get the first child of the parent
     const canvas = mainLayer.firstChild;
     // Insert the new child before the first child
+    mainLayer.insertBefore(headerField, canvas);
+
     mainLayer.insertBefore(canvasThree, canvas);
 
     const axesLayer = viewer.axesDom();
@@ -127,8 +133,16 @@
     on:click={onOverViewButton}>{textButtonView}</button
   > -->
 </div>
+
 <main id="main">
   <canvas class="full-screen" id="container" bind:this={canvas}> </canvas>
+  <div class="header" id="header">
+    <div class="menu-header">Đổi màu</div>
+    <div class="menu-header">Kính lúp</div>
+    <div class="menu-header">Thử nghiệm</div>
+    <div class="menu-header">Mini game</div>
+    <div class="menu-header">Câu chuyện</div>
+  </div>
 </main>
 
 <!-- <SimpleModal
@@ -160,8 +174,65 @@
 </SimpleModal> -->
 
 <style>
-  #container {
+  .menu-header {
+    padding-right: 15px;
+    padding-left: 25px;
+    z-index: 9999;
   }
+  .menu-header:hover {
+    cursor: pointer;
+  }
+
+  .header {
+    width: 50%;
+    height: 72px;
+    position: relative;
+
+    background-size: 100%;
+    background-attachment: fixed;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    cursor: move;
+    color: #363636;
+    text-align: center;
+    font: sans-serif;
+    font-weight: 600;
+    padding: 4px;
+
+    display: flex;
+    align-items: center;
+    position: absolute;
+    height: 4%;
+    left: 0;
+    right: 0.5;
+    border-radius: 10px;
+    background-color: lightblue;
+    box-shadow: 0 0 16px black;
+    -webkit-transition: all 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
+    -moz-transition: all 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
+    -o-transition: all 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
+    -ms-transition: all 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
+    transition: all 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
+  }
+  .header:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    -webkit-filter: blur(20px);
+    -moz-filter: blur(15px);
+    -o-filter: blur(15px);
+    -ms-filter: blur(15px);
+    filter: url(#blurLayer);
+    filter: blur(15px);
+    opacity: 0.9;
+    content: " ";
+    background: lightblue url("src/assets/bluesky.jpg") no-repeat fixed center;
+    background-size: cover;
+  }
+
   #main {
     width: 100%;
     height: 100%;
@@ -182,35 +253,5 @@
     bottom: 20px;
     transform: translate(-50%, -50%);
     z-index: 1000; /* Ensure the button appears on top of the canvas */
-  }
-
-  button {
-    padding: 10px;
-    background-color: var(--focus-color);
-    color: white;
-    cursor: pointer;
-    border: var(--focus-border);
-
-    outline: none;
-    overflow: hidden;
-    transition: background-color 0.3s; /* Added transition for smooth color change */
-  }
-
-  button:hover {
-    background-color: #74b9e7;
-  }
-
-  .left-content {
-    /* height: 100%; */
-  }
-
-  .right-content {
-    /* height: 100%; */
-  }
-
-  .detail-product {
-    /* width: 100%;
-    position: absolute;
-    height: 100%; */
   }
 </style>
