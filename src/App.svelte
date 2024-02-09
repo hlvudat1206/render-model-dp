@@ -11,10 +11,12 @@
 
   let viewer;
   let canvas;
-
+  let sphere;
   let options;
   let onMenu = false;
-  let clickMenu = false;
+  let onMenuChangeColor = false;
+  let onMenuLookUp = false;
+  let motobike;
   let colorArr = [
     {
       id: 1,
@@ -102,6 +104,20 @@
 
     // viewer.createObject(visiablePlane);
 
+    //create Glass
+    let glassMaterial = new THREE.MeshPhysicalMaterial();
+    glassMaterial.color = new THREE.Color(1, 1, 1);
+    glassMaterial.transmission = 1;
+    glassMaterial.roughness = 0;
+    glassMaterial.ior = 1.7;
+    glassMaterial.thickness = 0.5;
+    glassMaterial.specularIntensity = 1;
+
+    sphere = new THREE.Mesh(new THREE.SphereGeometry(), glassMaterial);
+    sphere.scale.set(0.1, 0.1, 0.1);
+    sphere.position.set(0, 0, 0);
+    // viewer.createObject(sphere);
+
     const mainLayer = document.getElementById("main");
     let headerField = document.getElementById("header");
     let contentField = document.getElementById("content");
@@ -164,6 +180,7 @@
           // this.validationCtrl.validate(fileURL, rootPath, fileMap, gltf);
         }
         console.log("gltff: ", gltf);
+        motobike = gltf;
         // cleanup();
       });
     // console.log('in rootPath: ',rootPath)
@@ -171,23 +188,33 @@
   }
 
   const onColorArea = () => {
-    console.log("ôkokokoko");
     onMenu = !onMenu;
-    clickMenu = !clickMenu;
+    onMenuChangeColor = !onMenuChangeColor;
   };
 
-  const interactObject = () => {
-    console.log("clikkkkk");
-    console.log("call interact: ", viewer.interactiveObject());
-  };
+  const interactObject = () => {};
 
   const changeColorObject = (item) => {
-    console.log("eeee is: ", item.color);
-    if (viewer.interactiveObject()) {
-      viewer.interactiveObject().material.color.set(item.color);
+    if (viewer.interactiveMainObject(motobike)) {
+      viewer.interactiveMainObject(motobike).material.color.set(item.color);
     }
 
     //interactive
+  };
+
+  const onDetailObject = () => {
+    console.log("detail Object");
+    onMenuLookUp = !onMenuLookUp;
+  };
+
+  const lookUpObject = (e) => {
+    if (onMenuLookUp) {
+      viewer.createObject(sphere);
+
+      sphere.position.copy(viewer.mouseMove(e).pos);
+    } else {
+      viewer.removeObject(sphere);
+    }
   };
   onMount(() => {
     init();
@@ -203,16 +230,22 @@
   > -->
 </div>
 
-<main id="main" on:click={interactObject}>
+<main id="main" on:click={interactObject} on:mousemove={lookUpObject}>
   <canvas class="full-screen" id="container" bind:this={canvas}> </canvas>
   <div class="header" id="header">
     <div
-      class="menu-header {clickMenu ? 'menu-header-activing' : ''}"
+      class="menu-header {onMenuChangeColor ? 'menu-header-activing' : ''}"
       on:click={onColorArea}
     >
       Đổi màu
     </div>
-    <div class="menu-header">Kính lúp</div>
+    <div
+      class="menu-header {onMenuLookUp ? 'menu-header-activing' : ''}"
+      on:click={onDetailObject}
+    >
+      Kính lúp
+    </div>
+    <div class="menu-header">Chú thích</div>
     <div class="menu-header">Thử nghiệm</div>
     <div class="menu-header">Mini game</div>
     <div class="menu-header">Câu chuyện</div>
@@ -271,8 +304,9 @@
   }
 
   .menu-header-activing {
+    margin-left: 3px;
     border-radius: 6px;
-    border: 0.25px solid black;
+    border: 0.25px solid #ef7403;
   }
 
   .header {

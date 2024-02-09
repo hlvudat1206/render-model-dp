@@ -73,6 +73,7 @@ export class Viewer {
     this.clips = [];
     this.gui = null;
     this.interactObject = null;
+    this.interactMainObject = null;
 
     this.state = {
       environment:
@@ -210,12 +211,43 @@ export class Viewer {
     if (intersects.length > 0) {
       const selectedObject = intersects[0].object;
 
-      console.log("selectObject: ", selectedObject);
-      console.log("intersects[0]: ", intersects[0]);
-      console.log("object can: ", selectedObject.parent.children[1]);
       this.interactObject = selectedObject.parent.children[1];
     }
     return this.interactObject;
+  }
+
+  interactiveMainObject(obj) {
+    this.raycaster.setFromCamera(this.mouse, this.defaultCamera);
+    console.log("objjj: ", obj);
+    const intersects = this.raycaster.intersectObject(obj, true);
+    if (intersects.length > 0) {
+      const selectedObject = intersects[0].object;
+
+      this.interactMainObject = selectedObject.parent.children[1];
+    }
+    return this.interactMainObject;
+  }
+
+  mouseMove(event) {
+    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    //Set a fixed distance from the camera
+    var distance = 1;
+    // Create a vector representing mouse position in normalized device coordinates
+    var mousePosition = new THREE.Vector3(this.mouse.x, this.mouse.y, 0.5);
+    // Convert the mouse position to world space
+    mousePosition.unproject(this.defaultCamera);
+    // Calculate the direction vector from the camera to the mouse position
+    var direction = mousePosition.sub(this.defaultCamera.position).normalize();
+    // Scale the direction vector by the desired distance from the camera
+    direction.multiplyScalar(distance);
+    let newPos = direction.add(this.defaultCamera.position);
+
+    let infoObject = {
+      pos: newPos,
+      posCam: this.defaultCamera.position,
+    };
+    return infoObject;
   }
 
   onWindowResize() {
@@ -271,6 +303,10 @@ export class Viewer {
 
   createObject = (obj) => {
     this.scene.add(obj);
+  };
+
+  removeObject = (obj) => {
+    this.scene.remove(obj);
   };
 
   load(url) {
@@ -330,10 +366,9 @@ export class Viewer {
                 " it may contain individual 3D resources."
             );
           }
-
           this.setContent(scene, clips);
 
-          resolve(gltf);
+          resolve(gltf.scene.children[0]);
         },
         undefined,
         function (e) {
