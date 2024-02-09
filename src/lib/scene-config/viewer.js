@@ -30,6 +30,7 @@ import { OrbitControls } from "../../../js/OrbitControls.js";
 import { EXRLoader } from "../../../js/EXRLoader.js";
 import { RoomEnvironment } from "../../../js/RoomEnvironment.js";
 import * as THREE from "../../../build/three.module";
+import { CSS2DRenderer, CSS2DObject } from "../../../js/CSS2DRenderer.js";
 
 // import { GUI } from "../js/lil-gui.module.min.js";
 import { GUI } from "../../../build/dat.gui.module.js";
@@ -74,6 +75,7 @@ export class Viewer {
     this.gui = null;
     this.interactObject = null;
     this.interactMainObject = null;
+    this.icon2D = null;
 
     this.state = {
       environment:
@@ -143,7 +145,13 @@ export class Viewer {
     this.renderer.setSize(el.clientWidth, el.clientHeight);
 
     this.el.appendChild(this.renderer.domElement);
+
     // this.renderer.domElement.prepend(this.el);
+
+    // this.renderer2DObject = new CSS2DRenderer();
+    // this.renderer2DObject.setSize(el.clientWidth, el.clientHeight);
+    // this.el.appendChild(this.renderer2DObject.domElement);
+
     this.pmremGenerator = new PMREMGenerator(this.renderer);
     this.pmremGenerator.compileEquirectangularShader();
 
@@ -179,6 +187,7 @@ export class Viewer {
 
     this.addAxesHelper();
     this.addGUI();
+    this.icon();
     if (options.kiosk) this.gui.close();
 
     this.animate = this.animate.bind(this);
@@ -201,6 +210,25 @@ export class Viewer {
 
   guiDom() {
     return this.guiWrap;
+  }
+
+  icon(url) {
+    if (url) {
+      this.renderer2DObject = new CSS2DRenderer();
+      const { clientHeight, clientWidth } = this.el.parentElement;
+      // this.renderer2DObject.setSize(clientWidth, clientHeight);
+      const imgElement = document.createElement("img");
+      imgElement.src = url;
+      imgElement.width = 100; // Set width
+      imgElement.height = 100; // Set height
+      const img2DObject = new CSS2DObject(imgElement);
+      img2DObject.position.set(5, -1, 0); // Adjust the position in 3D space
+
+      this.scene.add(img2DObject);
+
+      console.log("this el: ", this.el);
+      return this.renderer2DObject.domElement;
+    }
   }
 
   interactiveObject() {
@@ -276,6 +304,8 @@ export class Viewer {
   }
 
   render() {
+    this.renderer2DObject.render(this.scene, this.activeCamera);
+
     this.renderer.render(this.scene, this.activeCamera);
     if (this.state.grid) {
       this.axesCamera.position.copy(this.defaultCamera.position);
@@ -291,6 +321,7 @@ export class Viewer {
     this.defaultCamera.updateProjectionMatrix();
     // this.vignette.style({aspect: this.defaultCamera.aspect});
     this.renderer.setSize(clientWidth, clientHeight);
+    // this.renderer2DObject.setSize(clientWidth, clientHeight);
 
     this.axesCamera.aspect =
       this.axesDiv.clientWidth / this.axesDiv.clientHeight;

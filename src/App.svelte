@@ -5,9 +5,11 @@
   import { Viewer } from "./lib/scene-config/viewer";
   import queryString from "../js/query-string-main/index.js";
   import WebGL from "../js/WebGL.js";
+  import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer";
 
   let scene;
   let fittingRoomPath = "src/models/motorcycle/honda/motorbike.gltf";
+  let infoUrlPng = "src/assets/icons/info-icon.png";
 
   let viewer;
   let canvas;
@@ -16,6 +18,7 @@
   let onMenu = false;
   let onMenuChangeColor = false;
   let onMenuLookUp = false;
+  let onNote = false;
   let motobike;
   let colorArr = [
     {
@@ -89,39 +92,54 @@
     loadModel(fittingRoomPath);
 
     // //create planeMesh
-    // const visiablePlane = new THREE.Mesh(
-    //   new THREE.PlaneGeometry(400, 200),
-    //   new THREE.MeshBasicMaterial({
-    //     color: 0x6f7a73,
-    //     side: THREE.DoubleSide,
-    //     visible: true,
-    //   })
-    // );
+    const visiablePlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(400, 200),
+      new THREE.MeshBasicMaterial({
+        color: 0x6f7a73,
+        side: THREE.DoubleSide,
+        visible: true,
+      })
+    );
 
-    // visiablePlane.rotateX(Math.PI / 2);
-    // visiablePlane.name = "ground";
-    // visiablePlane.position.set(0, -3.5, 0);
+    visiablePlane.rotateX(Math.PI / 2);
+    visiablePlane.name = "ground";
+    visiablePlane.position.set(0, -3.5, 0);
 
-    // viewer.createObject(visiablePlane);
+    viewer.createObject(visiablePlane);
+
+    // const imgElement = document.createElement("img");
+    // imgElement.src = "src/assets/icons/info-icon.png";
+    // imgElement.width = 200; // Set width
+    // imgElement.height = 200; // Set height
+
+    // // Create CSS2DObject and link it to the image element
+    // const css2DObject = new CSS2DObject(imgElement);
+    // css2DObject.position.set(0, 0, 0); // Set position
+    // viewer.createObject(css2DObject);
 
     //create Glass
     let glassMaterial = new THREE.MeshPhysicalMaterial();
     glassMaterial.color = new THREE.Color(1, 1, 1);
     glassMaterial.transmission = 1;
     glassMaterial.roughness = 0;
-    glassMaterial.ior = 1.7;
-    glassMaterial.thickness = 0.5;
+    glassMaterial.ior = 2;
+    glassMaterial.thickness = 0.8; //zoom 1
     glassMaterial.specularIntensity = 1;
+    glassMaterial.envMapIntensity = 0;
+    glassMaterial.emissiveIntensity = 0;
 
+    // glassMaterial.reflectivity = 1; // zoom 2
     sphere = new THREE.Mesh(new THREE.SphereGeometry(), glassMaterial);
-    sphere.scale.set(0.1, 0.1, 0.1);
+    sphere.scale.set(0.2, 0.2, 0.2);
     sphere.position.set(0, 0, 0);
     // viewer.createObject(sphere);
+    // loadIcontoObject(infoUrlPng);
+    // //create icon
 
     const mainLayer = document.getElementById("main");
     let headerField = document.getElementById("header");
     let contentField = document.getElementById("content");
-
+    let iconField = loadIcontoObject(infoUrlPng);
     // Create a new child element
 
     const canvasThree = viewer.rendererDom();
@@ -131,6 +149,7 @@
     // Insert the new child before the first child
     mainLayer.insertBefore(headerField, canvas);
     mainLayer.insertBefore(contentField, canvas);
+    mainLayer.insertBefore(iconField, canvas);
 
     mainLayer.insertBefore(canvasThree, canvas);
 
@@ -142,6 +161,13 @@
 
   function getInteractive() {
     console.log("viewer.interactiveObject(): ", viewer.interactiveObject());
+  }
+
+  function loadIcontoObject(icon) {
+    console.log("icon: ", icon);
+    viewer.icon(icon);
+    console.log("viewer icon: ", viewer.icon(icon));
+    return viewer.icon(icon);
   }
   function loadModel(path) {
     console.log("vao load 1");
@@ -216,6 +242,10 @@
       viewer.removeObject(sphere);
     }
   };
+
+  const onNoteObject = (e) => {
+    onNote = !onNote;
+  };
   onMount(() => {
     init();
   });
@@ -237,18 +267,23 @@
       class="menu-header {onMenuChangeColor ? 'menu-header-activing' : ''}"
       on:click={onColorArea}
     >
-      Đổi màu
+      Decorate
     </div>
     <div
       class="menu-header {onMenuLookUp ? 'menu-header-activing' : ''}"
       on:click={onDetailObject}
     >
-      Kính lúp
+      Look Up
     </div>
-    <div class="menu-header">Chú thích</div>
-    <div class="menu-header">Thử nghiệm</div>
+    <div
+      class="menu-header {onNote ? 'menu-header-activing' : ''}"
+      on:click={onNoteObject}
+    >
+      See Origin/ History
+    </div>
+    <div class="menu-header">Experiment</div>
     <div class="menu-header">Mini game</div>
-    <div class="menu-header">Câu chuyện</div>
+    <div class="menu-header">Story</div>
   </div>
   <div class="content" id="content">
     <aside class:onMenu>
@@ -262,6 +297,14 @@
         {/each}
       </div>
     </aside>
+    <!-- <div class="icon" id="icon-2d">
+      <img
+        src="src/assets/icons/info-icon.png"
+        alt="info object"
+        width="100"
+        height="100"
+      />
+    </div> -->
   </div>
 </main>
 
@@ -420,5 +463,9 @@
   .color-card:hover {
     box-shadow: 0 0 8px black;
     cursor: pointer;
+  }
+
+  .icon {
+    position: absolute;
   }
 </style>
