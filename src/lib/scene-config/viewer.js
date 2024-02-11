@@ -149,8 +149,19 @@ export class Viewer {
     // this.renderer.domElement.prepend(this.el);
 
     // this.renderer2DObject = new CSS2DRenderer();
-    // this.renderer2DObject.setSize(el.clientWidth, el.clientHeight);
+
     // this.el.appendChild(this.renderer2DObject.domElement);
+
+    this.renderer2DObject = new CSS2DRenderer();
+    // this.el.appendChild(this.renderer2DObject.domElement);
+    this.renderer2DObject.setSize(el.clientWidth, el.clientHeight);
+    this.renderer2DObject.domElement.style.position = "absolute";
+    // this.renderer2DObject.domElement.style.top = "0px";
+    this.renderer2DObject.domElement.style.display = "flex";
+
+    this.renderer2DObject.domElement.style.pointerEvents = "none";
+
+    this.el.appendChild(this.renderer2DObject.domElement);
 
     this.pmremGenerator = new PMREMGenerator(this.renderer);
     this.pmremGenerator.compileEquirectangularShader();
@@ -214,19 +225,16 @@ export class Viewer {
 
   icon(url) {
     if (url) {
-      this.renderer2DObject = new CSS2DRenderer();
-      const { clientHeight, clientWidth } = this.el.parentElement;
-      // this.renderer2DObject.setSize(clientWidth, clientHeight);
       const imgElement = document.createElement("img");
       imgElement.src = url;
-      imgElement.width = 100; // Set width
-      imgElement.height = 100; // Set height
+      imgElement.width = 50; // Set width
+      imgElement.height = 50; // Set height
+
       const img2DObject = new CSS2DObject(imgElement);
-      img2DObject.position.set(5, -1, 0); // Adjust the position in 3D space
+      img2DObject.position.set(0, 0, 0); // Adjust the position in 3D space
 
       this.scene.add(img2DObject);
 
-      console.log("this el: ", this.el);
       return this.renderer2DObject.domElement;
     }
   }
@@ -286,6 +294,7 @@ export class Viewer {
     this.defaultCamera.updateProjectionMatrix();
 
     this.renderer.setSize(clientWidth, clientHeight);
+    this.renderer2DObject.setSize(clientWidth, clientHeight);
   }
   animate(time) {
     requestAnimationFrame(this.animate);
@@ -321,7 +330,7 @@ export class Viewer {
     this.defaultCamera.updateProjectionMatrix();
     // this.vignette.style({aspect: this.defaultCamera.aspect});
     this.renderer.setSize(clientWidth, clientHeight);
-    // this.renderer2DObject.setSize(clientWidth, clientHeight);
+    this.renderer2DObject.setSize(clientWidth, clientHeight);
 
     this.axesCamera.aspect =
       this.axesDiv.clientWidth / this.axesDiv.clientHeight;

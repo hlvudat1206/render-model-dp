@@ -8,7 +8,7 @@
   import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer";
 
   let scene;
-  let fittingRoomPath = "src/models/motorcycle/honda/motorbike.gltf";
+  let motoModel = "src/models/motorcycle/honda/motorbike.gltf";
   let infoUrlPng = "src/assets/icons/info-icon.png";
 
   let viewer;
@@ -89,33 +89,23 @@
 
     scene = new THREE.Scene();
     viewer = new Viewer(container, options);
-    loadModel(fittingRoomPath);
+    loadModel(motoModel);
 
     // //create planeMesh
-    const visiablePlane = new THREE.Mesh(
-      new THREE.PlaneGeometry(400, 200),
-      new THREE.MeshBasicMaterial({
-        color: 0x6f7a73,
-        side: THREE.DoubleSide,
-        visible: true,
-      })
-    );
+    // const visiablePlane = new THREE.Mesh(
+    //   new THREE.PlaneGeometry(400, 200),
+    //   new THREE.MeshBasicMaterial({
+    //     color: 0x6f7a73,
+    //     side: THREE.DoubleSide,
+    //     visible: true,
+    //   })
+    // );
 
-    visiablePlane.rotateX(Math.PI / 2);
-    visiablePlane.name = "ground";
-    visiablePlane.position.set(0, -3.5, 0);
+    // visiablePlane.rotateX(Math.PI / 2);
+    // visiablePlane.name = "ground";
+    // visiablePlane.position.set(0, 10, 0);
 
-    viewer.createObject(visiablePlane);
-
-    // const imgElement = document.createElement("img");
-    // imgElement.src = "src/assets/icons/info-icon.png";
-    // imgElement.width = 200; // Set width
-    // imgElement.height = 200; // Set height
-
-    // // Create CSS2DObject and link it to the image element
-    // const css2DObject = new CSS2DObject(imgElement);
-    // css2DObject.position.set(0, 0, 0); // Set position
-    // viewer.createObject(css2DObject);
+    // viewer.createObject(visiablePlane);
 
     //create Glass
     let glassMaterial = new THREE.MeshPhysicalMaterial();
@@ -133,8 +123,6 @@
     sphere.scale.set(0.2, 0.2, 0.2);
     sphere.position.set(0, 0, 0);
     // viewer.createObject(sphere);
-    // loadIcontoObject(infoUrlPng);
-    // //create icon
 
     const mainLayer = document.getElementById("main");
     let headerField = document.getElementById("header");
