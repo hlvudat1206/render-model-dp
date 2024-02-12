@@ -152,9 +152,6 @@
   }
 
   function loadIcontoObject(icon) {
-    console.log("icon: ", icon);
-    viewer.icon(icon);
-    console.log("viewer icon: ", viewer.icon(icon));
     return viewer.icon(icon);
   }
   function loadModel(path) {
@@ -206,7 +203,9 @@
     onMenuChangeColor = !onMenuChangeColor;
   };
 
-  const interactObject = () => {};
+  const interactObject = () => {
+    viewer.getCoordinate();
+  };
 
   const changeColorObject = (item) => {
     if (viewer.interactiveMainObject(motobike)) {
@@ -234,6 +233,7 @@
   const onNoteObject = (e) => {
     onNote = !onNote;
   };
+
   onMount(() => {
     init();
   });
@@ -272,6 +272,7 @@
     <div class="menu-header">Experiment</div>
     <div class="menu-header">Mini game</div>
     <div class="menu-header">Story</div>
+    <div class="menu-header">VR view</div>
   </div>
   <div class="content" id="content">
     <aside class:onMenu>

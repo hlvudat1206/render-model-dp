@@ -156,7 +156,7 @@ export class Viewer {
     // this.el.appendChild(this.renderer2DObject.domElement);
     this.renderer2DObject.setSize(el.clientWidth, el.clientHeight);
     this.renderer2DObject.domElement.style.position = "absolute";
-    // this.renderer2DObject.domElement.style.top = "0px";
+    this.renderer2DObject.domElement.style.top = "0px";
     this.renderer2DObject.domElement.style.display = "flex";
 
     this.renderer2DObject.domElement.style.pointerEvents = "none";
@@ -226,9 +226,11 @@ export class Viewer {
   icon(url) {
     if (url) {
       const imgElement = document.createElement("img");
+      imgElement.className = "imgElement";
       imgElement.src = url;
       imgElement.width = 50; // Set width
       imgElement.height = 50; // Set height
+      // document.body.appendChild(imgElement);
 
       const img2DObject = new CSS2DObject(imgElement);
       img2DObject.position.set(0, 0, 0); // Adjust the position in 3D space
@@ -238,7 +240,20 @@ export class Viewer {
       return this.renderer2DObject.domElement;
     }
   }
+  getCoordinate() {
+    this.raycaster.setFromCamera(this.mouse, this.defaultCamera);
 
+    const intersects = this.raycaster.intersectObject(this.scene, true);
+    if (intersects.length > 0) {
+      const selectedObject = intersects[0].point;
+
+      console.log(
+        "selectedObject2:",
+        selectedObject,
+        this.defaultCamera.position
+      );
+    }
+  }
   interactiveObject() {
     console.log("this 1: ", this.raycaster);
     this.raycaster.setFromCamera(this.mouse, this.defaultCamera);
