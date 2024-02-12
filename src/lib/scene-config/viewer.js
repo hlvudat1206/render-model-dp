@@ -44,6 +44,7 @@ import { environments } from "../../assets/environment/index.js";
 
 let strDownloadMime = "image/octet-stream";
 let img2DObject;
+let imgElement;
 let noteBehindObject;
 
 const DEFAULT_CAMERA = "[default]";
@@ -226,21 +227,17 @@ export class Viewer {
     return this.guiWrap;
   }
 
-  icon(url) {
+  icon(url, pos) {
     if (url) {
-      const imgElement = document.createElement("img");
+      imgElement = document.createElement("img");
       imgElement.className = "imgElement";
       imgElement.src = url;
       imgElement.width = 50; // Set width
       imgElement.height = 50; // Set height
       // document.body.appendChild(imgElement);
-
+      console.log("posss: ", pos);
       img2DObject = new CSS2DObject(imgElement);
-      img2DObject.position.set(
-        0.023185344255425594,
-        0.0828174216907986,
-        0.48456963060589475
-      ); // Adjust the position in 3D space
+      img2DObject.position.set(pos[0], pos[1], pos[2]); // Adjust the position in 3D space
       this.scene.add(img2DObject);
       return this.renderer2DObject.domElement;
     }
@@ -254,11 +251,8 @@ export class Viewer {
       );
       const motoBikeDistance = this.defaultCamera.position.distanceTo(vertOne);
       noteBehindObject = motoBikeDistance < noteOneDistance;
-      // console.log("noteOneDistance: ", noteOneDistance);
       // console.log("motoBikeDistance: ", motoBikeDistance);
-      this.renderer2DObject.domElement.style.opacity = noteBehindObject
-        ? "0.25"
-        : "1";
+      imgElement.style.opacity = noteBehindObject ? "0.25" : "1";
     }
   }
 

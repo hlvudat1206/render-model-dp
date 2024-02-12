@@ -64,9 +64,6 @@
   ];
   window.VIEWER = {};
 
-  $: console.log("canvas: ", canvas);
-  $: console.log("viewer: ", viewer);
-
   if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
     console.error("The File APIs are not fully supported in this browser.");
   } else if (!WebGL.isWebGLAvailable()) {
@@ -83,8 +80,7 @@
         ? hash.cameraPosition.split(",").map(Number)
         : null,
     };
-    // canvas.width = window.innerWidth; // Set width to full window width
-    // canvas.height = window.innerHeight; // Set height to full window height
+
     let container = document.getElementById("container");
 
     scene = new THREE.Scene();
@@ -127,7 +123,23 @@
     const mainLayer = document.getElementById("main");
     let headerField = document.getElementById("header");
     let contentField = document.getElementById("content");
-    let iconField = loadIcontoObject(infoUrlPng);
+
+    //x: left --> right
+    //y: bottom --> top
+    //z: behind --> in front of
+    let pos1Icon = [0.01, 0.13, 0.84];
+
+    let pos2Icon = [0, 0.51, 0.52];
+    let pos3Icon = [0, 0.42, 0.001];
+    let pos4Icon = [0, 0.28680726220235064, -0.4];
+    let pos5Icon = [0.107, 0.0014, -0.0107];
+
+    let icon1Field = loadIcontoObject(infoUrlPng, pos1Icon);
+    let icon2Field = loadIcontoObject(infoUrlPng, pos2Icon);
+    let icon3Field = loadIcontoObject(infoUrlPng, pos3Icon);
+    let icon4Field = loadIcontoObject(infoUrlPng, pos4Icon);
+    let icon5Field = loadIcontoObject(infoUrlPng, pos5Icon);
+
     // Create a new child element
 
     const canvasThree = viewer.rendererDom();
@@ -135,12 +147,22 @@
     // Get the first child of the parent
     const canvas = mainLayer.firstChild;
     // Insert the new child before the first child
+
+    //Header
     mainLayer.insertBefore(headerField, canvas);
+
+    //Content
     mainLayer.insertBefore(contentField, canvas);
-    mainLayer.insertBefore(iconField, canvas);
 
+    //Icon
+    mainLayer.insertBefore(icon1Field, canvas);
+    mainLayer.insertBefore(icon2Field, canvas);
+    mainLayer.insertBefore(icon3Field, canvas);
+    mainLayer.insertBefore(icon4Field, canvas);
+    mainLayer.insertBefore(icon5Field, canvas);
+
+    //Canvas and Other areas
     mainLayer.insertBefore(canvasThree, canvas);
-
     const axesLayer = viewer.axesDom();
     mainLayer.insertBefore(axesLayer, canvas);
     const guiLayer = viewer.guiDom();
@@ -151,8 +173,8 @@
     console.log("viewer.interactiveObject(): ", viewer.interactiveObject());
   }
 
-  function loadIcontoObject(icon) {
-    return viewer.icon(icon);
+  function loadIcontoObject(icon, pos) {
+    return viewer.icon(icon, pos);
   }
   function loadModel(path) {
     console.log("vao load 1");
