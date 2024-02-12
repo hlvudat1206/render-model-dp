@@ -43,6 +43,8 @@ import { environments } from "../../assets/environment/index.js";
 // let hemiLight, hemiLight_helper;
 
 let strDownloadMime = "image/octet-stream";
+let img2DObject;
+let noteBehindObject;
 
 const DEFAULT_CAMERA = "[default]";
 
@@ -199,6 +201,7 @@ export class Viewer {
     this.addAxesHelper();
     this.addGUI();
     this.icon();
+    this.updateAnnotationOpacity();
     if (options.kiosk) this.gui.close();
 
     this.animate = this.animate.bind(this);
@@ -232,14 +235,33 @@ export class Viewer {
       imgElement.height = 50; // Set height
       // document.body.appendChild(imgElement);
 
-      const img2DObject = new CSS2DObject(imgElement);
-      img2DObject.position.set(0, 0, 0); // Adjust the position in 3D space
-
+      img2DObject = new CSS2DObject(imgElement);
+      img2DObject.position.set(
+        0.023185344255425594,
+        0.0828174216907986,
+        0.48456963060589475
+      ); // Adjust the position in 3D space
       this.scene.add(img2DObject);
-
       return this.renderer2DObject.domElement;
     }
   }
+
+  updateAnnotationOpacity() {
+    if (this.defaultCamera && img2DObject) {
+      const vertOne = new THREE.Vector3(0, 0, 0);
+      const noteOneDistance = this.defaultCamera.position.distanceTo(
+        img2DObject.position
+      );
+      const motoBikeDistance = this.defaultCamera.position.distanceTo(vertOne);
+      noteBehindObject = motoBikeDistance < noteOneDistance;
+      // console.log("noteOneDistance: ", noteOneDistance);
+      // console.log("motoBikeDistance: ", motoBikeDistance);
+      this.renderer2DObject.domElement.style.opacity = noteBehindObject
+        ? "0.25"
+        : "1";
+    }
+  }
+
   getCoordinate() {
     this.raycaster.setFromCamera(this.mouse, this.defaultCamera);
 
@@ -254,6 +276,7 @@ export class Viewer {
       );
     }
   }
+
   interactiveObject() {
     console.log("this 1: ", this.raycaster);
     this.raycaster.setFromCamera(this.mouse, this.defaultCamera);
@@ -329,7 +352,7 @@ export class Viewer {
 
   render() {
     this.renderer2DObject.render(this.scene, this.activeCamera);
-
+    this.updateAnnotationOpacity();
     this.renderer.render(this.scene, this.activeCamera);
     if (this.state.grid) {
       this.axesCamera.position.copy(this.defaultCamera.position);
