@@ -46,7 +46,7 @@ let strDownloadMime = "image/octet-stream";
 let img2DObject;
 let imgElement;
 let iconTotal = [];
-let noteBehindObject;
+let originalDistance = null;
 
 const DEFAULT_CAMERA = "[default]";
 
@@ -204,6 +204,7 @@ export class Viewer {
     this.addGUI();
     this.icon();
     this.updateAnnotationOpacity();
+    this.updateAnnotationScale();
     if (options.kiosk) this.gui.close();
 
     this.animate = this.animate.bind(this);
@@ -212,7 +213,9 @@ export class Viewer {
     window.addEventListener("resize", this.resize.bind(this), false);
 
     this.onWindowResize();
+
     // window.addEventListener("click", this.interactiveObject.bind(this), false);
+    this.controls.addEventListener("change", this.getControlsZoom.bind(this));
   }
   init() {}
 
@@ -233,8 +236,8 @@ export class Viewer {
       imgElement = document.createElement("img");
       imgElement.className = "imgElement";
       imgElement.src = url;
-      imgElement.width = 30; // Set width
-      imgElement.height = 30; // Set height
+      imgElement.width = 35; // Set width
+      imgElement.height = 35; // Set height
 
       img2DObject = new CSS2DObject(imgElement);
       img2DObject.position.set(pos[0], pos[1], pos[2]); // Adjust the position in 3D space
@@ -260,6 +263,21 @@ export class Viewer {
         dt[0].style.opacity = noteBehindObject ? "0.15" : "1";
       });
     }
+  }
+  getControlsZoom() {
+    var zoom = this.controls.getDistance();
+    zoom = Math.round(zoom * 1e4) / 1e4;
+    if (zoom == 0) {
+      zoom = 1;
+    }
+    iconTotal.map((dt) => {
+      dt[0].width = 70 / zoom;
+      dt[0].height = 70 / zoom;
+    });
+  }
+  updateAnnotationScale() {
+    const vertOne = new THREE.Vector3(0, 0, 0);
+    const motoBikeDistance = this.defaultCamera.position.distanceTo(vertOne);
   }
 
   getCoordinate() {
@@ -353,6 +371,7 @@ export class Viewer {
   render() {
     this.renderer2DObject.render(this.scene, this.activeCamera);
     this.updateAnnotationOpacity();
+    this.updateAnnotationScale();
     this.renderer.render(this.scene, this.activeCamera);
     if (this.state.grid) {
       this.axesCamera.position.copy(this.defaultCamera.position);
