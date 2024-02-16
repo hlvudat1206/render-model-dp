@@ -6,20 +6,59 @@
   import queryString from "../js/query-string-main/index.js";
   import WebGL from "../js/WebGL.js";
   import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer";
+  import { statusLoading, percentLoading } from "./lib/scene-config/store.js";
 
   let scene;
-  let motoModel = "src/models/motorcycle/honda/motorbike.gltf";
-  let infoUrlPng = "src/assets/icons/info-icon.png";
+  // let motoModel = "src/models/motorcycle/honda/motorbike.gltf";
+  // let motoModel = "src/models/bedroom/scene.gltf";
+  // let motoModel = "src/models/livingRoom/scene.gltf";
+  let motoModel = "src/models/rustybike/scene.gltf";
+  let modelList = [
+    {
+      id: 1,
+      path: "src/models/motorcycle/honda/motorbike.gltf",
+      image: "src/models/motorcycle/honda/motocycle.png",
+    },
+    {
+      id: 1,
+      path: "src/models/bedroom/scene.gltf",
+      image: "src/models/bedroom/bedroom.png",
+    },
+    {
+      id: 1,
+      path: "src/models/rustybike/scene.gltf",
+      image: "src/models/rustybike/rustymotobike.png",
+    },
+    {
+      id: 1,
+      path: "src/models/livingRoom/scene.gltf",
+      image: "src/models/rustybike/rustymotobike.png",
+    },
+  ];
 
+  let infoUrlPng = "src/assets/icons/info-icon.png";
+  // let statusLoad;
+  // let percentLoad;
+  // statusLoading.subscribe((value) => {
+  //   statusLoad = value;
+  // });
+  // percentLoading.subscribe((value) => {
+  //   percentLoad = value;
+  // });
+  statusLoading.subscribe((value) => {
+    console.log("statusLoading11:", value);
+  });
+  $: console.log("status percent: ", $statusLoading, $percentLoading);
   let viewer;
   let canvas;
   let sphere;
   let options;
-  let onMenu = false;
+  let onMenu = true;
   let onMenuChangeColor = false;
   let onMenuLookUp = false;
   let onNote = false;
   let motobike;
+  let iconField;
   let colorArr = [
     {
       id: 1,
@@ -69,6 +108,7 @@
   } else if (!WebGL.isWebGLAvailable()) {
     console.error("WebGL is not supported in this browser.");
   }
+
   const init = () => {
     const hash = location.hash ? queryString.parse(location.hash) : {};
     console.log("hasssh: ", hash, location);
@@ -127,18 +167,6 @@
     //x: left --> right
     //y: bottom --> top
     //z: behind --> in front of
-    let pos1Icon = [0.01, 0.13, 0.84];
-
-    let pos2Icon = [0, 0.51, 0.52];
-    let pos3Icon = [0, 0.42, 0.001];
-    let pos4Icon = [0, 0.28680726220235064, -0.4];
-    let pos5Icon = [0.107, 0.0014, -0.0107];
-
-    let icon1Field = loadIcontoObject(infoUrlPng, pos1Icon);
-    let icon2Field = loadIcontoObject(infoUrlPng, pos2Icon);
-    let icon3Field = loadIcontoObject(infoUrlPng, pos3Icon);
-    let icon4Field = loadIcontoObject(infoUrlPng, pos4Icon);
-    let icon5Field = loadIcontoObject(infoUrlPng, pos5Icon);
 
     // Create a new child element
 
@@ -154,19 +182,12 @@
     //Content
     mainLayer.insertBefore(contentField, canvas);
 
-    //Icon
-    mainLayer.insertBefore(icon1Field, canvas);
-    mainLayer.insertBefore(icon2Field, canvas);
-    mainLayer.insertBefore(icon3Field, canvas);
-    mainLayer.insertBefore(icon4Field, canvas);
-    mainLayer.insertBefore(icon5Field, canvas);
-
     //Canvas and Other areas
     mainLayer.insertBefore(canvasThree, canvas);
     const axesLayer = viewer.axesDom();
     mainLayer.insertBefore(axesLayer, canvas);
     const guiLayer = viewer.guiDom();
-    mainLayer.insertBefore(guiLayer, canvas);
+    // mainLayer.insertBefore(guiLayer, canvas);
   };
 
   function getInteractive() {
@@ -229,11 +250,12 @@
     viewer.getCoordinate();
   };
 
-  const changeColorObject = (item) => {
-    if (viewer.interactiveMainObject(motobike)) {
-      viewer.interactiveMainObject(motobike).material.color.set(item.color);
-    }
+  const changeObject = (item) => {
+    console.log("itemmm: ", item);
+    statusLoading.update((st) => (st = false));
+    percentLoading.update((n) => (n = 0));
 
+    view(item.path);
     //interactive
   };
 
@@ -250,6 +272,21 @@
     } else {
       viewer.removeObject(sphere);
     }
+  };
+  const mouseEnter = () => {
+    console.log("1111111111");
+  };
+  const mouseEnterObject = (e) => {
+    // document
+    //   .getElementById("imgElement")
+    //   .addEventListener("click", function (e) {
+    //     console.log("1212a");
+    //   });
+    // console.log("mouse enter: ", e);
+  };
+
+  const mouseLeaveObject = (e) => {
+    // console.log("mouse leave: ", e);
   };
 
   const onNoteObject = (e) => {
@@ -270,14 +307,22 @@
   > -->
 </div>
 
-<main id="main" on:click={interactObject} on:mousemove={lookUpObject}>
-  <canvas class="full-screen" id="container" bind:this={canvas}> </canvas>
+<main
+  id="main"
+  on:click={interactObject}
+  on:mousemove={lookUpObject}
+  on:mouseenter={mouseEnterObject}
+  on:mouseleave={mouseLeaveObject}
+>
+  {#if $statusLoading}
+    <canvas class="full-screen" id="container" bind:this={canvas}> </canvas>
+  {:else}{/if}
   <div class="header" id="header">
     <div
       class="menu-header {onMenuChangeColor ? 'menu-header-activing' : ''}"
       on:click={onColorArea}
     >
-      Decorate
+      Customize
     </div>
     <div
       class="menu-header {onMenuLookUp ? 'menu-header-activing' : ''}"
@@ -285,25 +330,16 @@
     >
       Look Up
     </div>
-    <div
-      class="menu-header {onNote ? 'menu-header-activing' : ''}"
-      on:click={onNoteObject}
-    >
-      See Origin/ History
-    </div>
-    <div class="menu-header">Experiment</div>
-    <div class="menu-header">Mini game</div>
-    <div class="menu-header">Story</div>
-    <div class="menu-header">VR view</div>
   </div>
+
   <div class="content" id="content">
     <aside class:onMenu>
       <div class="card">
-        {#each colorArr as items, index}
+        {#each modelList as items, index}
           <div
-            class="color-card"
-            style="background-color:{items.color}"
-            on:click={() => changeColorObject(items)}
+            class="setting-card"
+            style="  background-image: url({items.image})"
+            on:click={() => changeObject(items)}
           ></div>
         {/each}
       </div>
@@ -440,13 +476,14 @@
     left: -500px;
     transition: all 0.5s;
 
-    height: 60%;
+    height: 80%;
     width: 20%;
-    top: 20%;
+    top: 10%;
+    bottom: 10%;
     border: 1px solid #ddd;
     /* background-color: #ffe7e7; */
     border-radius: 12px;
-
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     background-color: lightblue;
@@ -458,20 +495,24 @@
 
   .card {
     display: flex;
-    position: absolute;
-    height: 50%;
+    /* position: absolute; */
+    /* height: 50%; */
     flex-wrap: wrap;
+    overflow-y: auto; /* Add vertical scrollbar if needed */
   }
 
-  .color-card {
-    padding: 30px;
-    /* border: 1px solid #000000; */
-    margin: 10px;
-    background-color: red;
-    border-radius: 6px;
+  .setting-card {
+    margin-bottom: 15px;
+    width: 300px;
+    height: 200px;
+
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
-  .color-card:hover {
+  .setting-card:hover {
     box-shadow: 0 0 8px black;
     cursor: pointer;
   }

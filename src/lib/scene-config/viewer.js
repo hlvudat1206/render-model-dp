@@ -37,6 +37,8 @@ import { GUI } from "../../../build/dat.gui.module.js";
 import { TWEEN } from "../../../js/tween.module.min.js";
 
 import { environments } from "../../assets/environment/index.js";
+import { statusLoading, percentLoading } from "./store.js";
+
 // import { createBackground } from '../lib/three-vignette.js';
 
 // let scene, camera, renderer;
@@ -47,6 +49,7 @@ let img2DObject;
 let imgElement;
 let iconTotal = [];
 let originalDistance = null;
+let progress = 0;
 
 const DEFAULT_CAMERA = "[default]";
 
@@ -204,7 +207,6 @@ export class Viewer {
     this.addGUI();
     this.icon();
     this.updateAnnotationOpacity();
-    this.updateAnnotationScale();
     if (options.kiosk) this.gui.close();
 
     this.animate = this.animate.bind(this);
@@ -213,7 +215,6 @@ export class Viewer {
     window.addEventListener("resize", this.resize.bind(this), false);
 
     this.onWindowResize();
-
     // window.addEventListener("click", this.interactiveObject.bind(this), false);
     this.controls.addEventListener("change", this.getControlsZoom.bind(this));
   }
@@ -235,6 +236,7 @@ export class Viewer {
     if (url) {
       imgElement = document.createElement("img");
       imgElement.className = "imgElement";
+      imgElement.setAttribute("id", "imgElement");
       imgElement.src = url;
       imgElement.width = 35; // Set width
       imgElement.height = 35; // Set height
@@ -243,8 +245,26 @@ export class Viewer {
       img2DObject.position.set(pos[0], pos[1], pos[2]); // Adjust the position in 3D space
       this.scene.add(img2DObject);
       iconTotal.push([imgElement, img2DObject]);
+
+      // imgElement.addEventListener("mouseenter", this.mouseEnter.bind(this));
+
+      // imgElement.addEventListener("mouseleave", this.mouseLeave.bind(this));
+
       return this.renderer2DObject.domElement;
     }
+  }
+
+  mouseEnter() {
+    console.log("mouse en");
+    // Handle mouse enter event (e.g., change style)
+    imgElement.style.width = "100px";
+    console.log("yeeloww");
+  }
+
+  mouseLeave() {
+    // Handle mouse leave event (e.g., revert style)
+    imgElement.style.width = "50px";
+    console.log("yeeloww2");
   }
 
   updateAnnotationOpacity() {
@@ -254,6 +274,7 @@ export class Viewer {
       let noteOneDistance;
       let noteBehindObject;
       const motoBikeDistance = this.defaultCamera.position.distanceTo(vertOne);
+
       //processing opacity
       iconTotal.map((dt) => {
         noteOneDistance = this.defaultCamera.position.distanceTo(
@@ -270,14 +291,11 @@ export class Viewer {
     if (zoom == 0) {
       zoom = 1;
     }
+
     iconTotal.map((dt) => {
       dt[0].width = 70 / zoom;
       dt[0].height = 70 / zoom;
     });
-  }
-  updateAnnotationScale() {
-    const vertOne = new THREE.Vector3(0, 0, 0);
-    const motoBikeDistance = this.defaultCamera.position.distanceTo(vertOne);
   }
 
   getCoordinate() {
@@ -296,13 +314,12 @@ export class Viewer {
   }
 
   interactiveObject() {
-    console.log("this 1: ", this.raycaster);
     this.raycaster.setFromCamera(this.mouse, this.defaultCamera);
 
     const intersects = this.raycaster.intersectObject(this.scene, true);
     if (intersects.length > 0) {
       const selectedObject = intersects[0].object;
-
+      console.log("okok: ", selectedObject);
       this.interactObject = selectedObject.parent.children[1];
     }
     return this.interactObject;
@@ -339,6 +356,7 @@ export class Viewer {
       pos: newPos,
       posCam: this.defaultCamera.position,
     };
+
     return infoObject;
   }
 
@@ -371,7 +389,6 @@ export class Viewer {
   render() {
     this.renderer2DObject.render(this.scene, this.activeCamera);
     this.updateAnnotationOpacity();
-    this.updateAnnotationScale();
     this.renderer.render(this.scene, this.activeCamera);
     if (this.state.grid) {
       this.axesCamera.position.copy(this.defaultCamera.position);
@@ -451,6 +468,8 @@ export class Viewer {
         (gltf) => {
           console.log("in ra url 2: ", url);
           console.log("window: ", window);
+          statusLoading.update((st) => (st = true));
+
           window.VIEWER.json = gltf;
 
           const scene = gltf.scene || gltf.scenes[0];
@@ -464,10 +483,14 @@ export class Viewer {
             );
           }
           this.setContent(scene, clips);
-
           resolve(gltf.scene.children[0]);
         },
-        undefined,
+        (xhr) => {
+          // onProgress callback
+          progress = (xhr.loaded / xhr.total) * 100;
+          console.log("progress: ", progress);
+          percentLoading.update((n) => (n = progress));
+        },
         function (e) {
           console.error(e);
         }
