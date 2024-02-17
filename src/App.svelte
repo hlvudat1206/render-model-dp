@@ -7,6 +7,7 @@
   import WebGL from "../js/WebGL.js";
   import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer";
   import { statusLoading, percentLoading } from "./lib/scene-config/store.js";
+  import { ResizeObserverSingleton } from "svelte/internal";
 
   let scene;
   // let motoModel = "src/models/motorcycle/honda/motorbike.gltf";
@@ -20,19 +21,44 @@
       image: "src/models/motorcycle/honda/motocycle.png",
     },
     {
-      id: 1,
+      id: 2,
+      path: "src/models/porsche/scene.gltf",
+      image: "src/models/porsche/porsche.png",
+    },
+    {
+      id: 3,
+      path: "src/models/bentlyCar/scene.gltf",
+      image: "src/models/bentlyCar/bentlyCar.png",
+    },
+    {
+      id: 3,
+      path: "src/models/rustyCar/scene.gltf",
+      image: "src/models/rustyCar/rustyCar.png",
+    },
+    {
+      id: 4,
       path: "src/models/bedroom/scene.gltf",
       image: "src/models/bedroom/bedroom.png",
     },
     {
-      id: 1,
+      id: 5,
       path: "src/models/rustybike/scene.gltf",
       image: "src/models/rustybike/rustymotobike.png",
     },
     {
-      id: 1,
+      id: 6,
       path: "src/models/livingRoom/scene.gltf",
-      image: "src/models/rustybike/rustymotobike.png",
+      image: "src/models/livingRoom/livingRoom.png",
+    },
+    {
+      id: 7,
+      path: "src/models/bedroomV2/scene.gltf",
+      image: "src/models/bedroomV2/bedroomv2.png",
+    },
+    {
+      id: 8,
+      path: "src/models/modernBedroom/scene.gltf",
+      image: "src/models/modernBedroom/modernBedroom.png",
     },
   ];
 
@@ -149,7 +175,7 @@
     glassMaterial.transmission = 1;
     glassMaterial.roughness = 0;
     glassMaterial.ior = 2;
-    glassMaterial.thickness = 0.8; //zoom 1
+    glassMaterial.thickness = 0.6; //zoom 1
     glassMaterial.specularIntensity = 1;
     glassMaterial.envMapIntensity = 0;
     glassMaterial.emissiveIntensity = 0;
@@ -163,6 +189,7 @@
     const mainLayer = document.getElementById("main");
     let headerField = document.getElementById("header");
     let contentField = document.getElementById("content");
+    let loadField = document.getElementById("load-progress");
 
     //x: left --> right
     //y: bottom --> top
@@ -181,13 +208,14 @@
 
     //Content
     mainLayer.insertBefore(contentField, canvas);
+    mainLayer.insertBefore(loadField, canvas);
 
     //Canvas and Other areas
     mainLayer.insertBefore(canvasThree, canvas);
     const axesLayer = viewer.axesDom();
     mainLayer.insertBefore(axesLayer, canvas);
     const guiLayer = viewer.guiDom();
-    // mainLayer.insertBefore(guiLayer, canvas);
+    mainLayer.insertBefore(guiLayer, canvas);
   };
 
   function getInteractive() {
@@ -252,11 +280,9 @@
 
   const changeObject = (item) => {
     console.log("itemmm: ", item);
-    statusLoading.update((st) => (st = false));
-    percentLoading.update((n) => (n = 0));
-
+    statusLoading.set(false);
+    percentLoading.set(0);
     view(item.path);
-    //interactive
   };
 
   const onDetailObject = () => {
@@ -314,21 +340,25 @@
   on:mouseenter={mouseEnterObject}
   on:mouseleave={mouseLeaveObject}
 >
-  {#if $statusLoading}
-    <canvas class="full-screen" id="container" bind:this={canvas}> </canvas>
-  {:else}{/if}
+  <canvas class="full-screen" id="container" bind:this={canvas}> </canvas>
+
   <div class="header" id="header">
     <div
       class="menu-header {onMenuChangeColor ? 'menu-header-activing' : ''}"
       on:click={onColorArea}
     >
-      Customize
+      <img src="src/assets/folder.png" alt="folder" width="40" height="30" />
     </div>
     <div
       class="menu-header {onMenuLookUp ? 'menu-header-activing' : ''}"
       on:click={onDetailObject}
     >
-      Look Up
+      <img
+        src="src/assets/magnifying-glass.png"
+        alt="magnifying-glass"
+        width="40"
+        height="30"
+      />
     </div>
   </div>
 
@@ -338,50 +368,21 @@
         {#each modelList as items, index}
           <div
             class="setting-card"
-            style="  background-image: url({items.image})"
+            style="background-image: url({items.image})"
             on:click={() => changeObject(items)}
           ></div>
         {/each}
       </div>
     </aside>
-    <!-- <div class="icon" id="icon-2d">
-      <img
-        src="src/assets/icons/info-icon.png"
-        alt="info object"
-        width="100"
-        height="100"
-      />
-    </div> -->
   </div>
-</main>
 
-<!-- <SimpleModal
-  bind:this={simpleModalRef}
-  heightSize={"250px"}
-  on:clickButton={showInfoModel}
-  on:closeButton={closeInfomodel}
-  saveButtonName={"Save AA"}
-  bind:showModal
->
-  <div slot="content">
-    <div>
-      Áo Thun Trơn Áo Phông Trắng Đen Xám Nam Nữ Form Xuông Vải Dày Mịn Không Xù
-      Lông
-    </div>
-    <div class="detail-product">
-      <Split initialPrimarySize="70%">
-        <div slot="primary" class="left-content">
-          <div>Price</div>
-          <div>About Product</div>
-          <div>Orgin</div>
-          <div>Color</div>
-          <div>Size</div>
-        </div>
-        <div slot="secondary" class="right-content">haha</div>
-      </Split>
-    </div>
-  </div>
-</SimpleModal> -->
+  <div
+    class="load-progress"
+    id="load-progress"
+    style="text-align: right;
+    padding-right: 40px;"
+  ></div>
+</main>
 
 <style>
   .menu-header {
@@ -391,12 +392,14 @@
   }
   .menu-header:hover {
     cursor: pointer;
+    background-color: rgb(119, 199, 199);
+    border-radius: 5px;
   }
 
   .menu-header-activing {
     margin-left: 3px;
-    border-radius: 6px;
-    border: 0.25px solid #ef7403;
+
+    border-bottom: 3.5px solid #ef7403;
   }
 
   .header {
@@ -505,11 +508,13 @@
     margin-bottom: 15px;
     width: 300px;
     height: 200px;
+    /* background-size: 295px; */
+    background-size: 295px 200px;
 
-    background-size: cover;
+    /* background-size: cover; */
     background-position: center;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   }
 
   .setting-card:hover {
