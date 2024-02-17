@@ -383,10 +383,18 @@
       <div class="progress-bar-parent">
         <div
           class="progress-bar"
-          style="width: {$percentLoading > 2 ? $percentLoading - 2 : 0}%;"
+          style="width: {$percentLoading > 2
+            ? $percentLoading - 2
+            : 0 && $statusLoading
+              ? 100
+              : 0}%;"
         >
           <div style="color: #3cf93c;font-weight: 600;padding: 12px;">
-            {$percentLoading} %
+            {$percentLoading > 0
+              ? $percentLoading
+              : 0 && $statusLoading
+                ? 100
+                : 0} %
           </div>
         </div>
       </div>
@@ -447,11 +455,11 @@
   .menu-header-activing {
     margin-left: 3px;
 
-    border-bottom: 3.5px solid #ef7403;
+    border-bottom: 3.5px solid #5c5586;
   }
 
   .header {
-    width: 50%;
+    width: 30%;
     height: 72px;
     position: relative;
 
@@ -465,12 +473,12 @@
     font: sans-serif;
     font-weight: 600;
     padding: 4px;
-
     display: flex;
     align-items: center;
     position: absolute;
+    justify-content: center;
     height: 5%;
-    left: 0;
+    left: 35%;
     right: 0.5;
     border-radius: 10px;
     background-color: lightblue;
@@ -552,6 +560,18 @@
     overflow-y: auto; /* Add vertical scrollbar if needed */
   }
 
+  .card::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+  }
+
+  .card::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Background color of the track */
+  }
+
+  .card::-webkit-scrollbar-thumb {
+    background: #5c5586; /* Background color of the thumb */
+    border-radius: 6px; /* Border radius of the thumb */
+  }
   .setting-card {
     margin-bottom: 15px;
     width: 300px;
