@@ -491,10 +491,6 @@ export class Viewer {
           progress = (xhr.loaded / xhr.total) * 100;
           console.log("progress 2: ", progress);
           percentLoading.update((n) => (n = progress));
-
-          //update dom
-          document.getElementById("load-progress").innerHTML =
-            Math.round(progress, 2) + "% Đang tải chờ chút nhé.";
         },
         function (e) {
           console.error(e);

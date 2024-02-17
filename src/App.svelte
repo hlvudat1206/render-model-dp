@@ -80,7 +80,7 @@
   let sphere;
   let options;
   let onMenu = true;
-  let onMenuChangeColor = false;
+  let onMenuChangeColor = true;
   let onMenuLookUp = false;
   let onNote = false;
   let motobike;
@@ -209,7 +209,6 @@
     //Content
     mainLayer.insertBefore(contentField, canvas);
     mainLayer.insertBefore(loadField, canvas);
-
     //Canvas and Other areas
     mainLayer.insertBefore(canvasThree, canvas);
     const axesLayer = viewer.axesDom();
@@ -375,20 +374,69 @@
       </div>
     </aside>
   </div>
-
   <div
     class="load-progress"
     id="load-progress"
-    style="text-align: right;
-    padding-right: 40px;"
-  ></div>
+    style={$statusLoading ? "display:none" : ""}
+  >
+    <div class="cover-progress">
+      <div class="progress-bar-parent">
+        <div
+          class="progress-bar"
+          style="width: {$percentLoading > 2 ? $percentLoading - 2 : 0}%;"
+        >
+          <div style="color: #3cf93c;font-weight: 600;padding: 12px;">
+            {$percentLoading} %
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
 
 <style>
+  .cover-progress {
+    /* filter: blur(2px); */
+    border-radius: 5%;
+    height: 80%;
+    width: 30%;
+    /* background-color: #000000; */
+    display: flex;
+    align-items: center;
+    margin-left: 10%;
+  }
+  .progress-bar-parent {
+    border-radius: 10px;
+    width: 100%;
+    height: 15px;
+    background-color: rgb(60 60 60 / 76%);
+  }
+  .progress-bar {
+    margin-top: 5px;
+    margin-left: 1%;
+    height: 5px;
+    background-color: rgb(74 241 105 / 76%);
+    transition: width 0.3s ease-in-out;
+    border-radius: 5px;
+  }
+  .load-progress {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .menu-header {
-    padding-right: 15px;
+    padding-right: 25px;
     padding-left: 25px;
     z-index: 9999;
+    margin-left: 15px;
+    margin-right: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
   }
   .menu-header:hover {
     cursor: pointer;
@@ -421,7 +469,7 @@
     display: flex;
     align-items: center;
     position: absolute;
-    height: 4%;
+    height: 5%;
     left: 0;
     right: 0.5;
     border-radius: 10px;
