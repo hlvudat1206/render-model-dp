@@ -6,7 +6,11 @@
   import queryString from "../js/query-string-main/index.js";
   import WebGL from "../js/WebGL.js";
   import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer";
-  import { statusLoading, percentLoading } from "./lib/scene-config/store.js";
+  import {
+    statusLoading,
+    percentLoading,
+    onProgressCallBack,
+  } from "./lib/scene-config/store.js";
   import { ResizeObserverSingleton } from "svelte/internal";
 
   let scene;
@@ -74,7 +78,12 @@
   statusLoading.subscribe((value) => {
     console.log("statusLoading11:", value);
   });
-  $: console.log("status percent: ", $statusLoading, $percentLoading);
+  $: console.log(
+    "status percent: ",
+    $statusLoading,
+    $percentLoading,
+    $onProgressCallBack
+  );
   let viewer;
   let canvas;
   let sphere;
@@ -385,14 +394,14 @@
           class="progress-bar"
           style="width: {$percentLoading > 2
             ? $percentLoading - 2
-            : 0 && $statusLoading
-              ? 100
+            : !$onProgressCallBack
+              ? 98
               : 0}%;"
         >
           <div style="color: #3cf93c;font-weight: 600;padding: 12px;">
             {$percentLoading > 0
               ? $percentLoading
-              : 0 && $statusLoading
+              : !$onProgressCallBack
                 ? 100
                 : 0} %
           </div>

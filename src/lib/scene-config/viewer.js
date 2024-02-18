@@ -37,7 +37,7 @@ import { GUI } from "../../../build/dat.gui.module.js";
 import { TWEEN } from "../../../js/tween.module.min.js";
 
 import { environments } from "../../assets/environment/index.js";
-import { statusLoading, percentLoading } from "./store.js";
+import { statusLoading, percentLoading, onProgressCallBack } from "./store.js";
 
 // import { createBackground } from '../lib/three-vignette.js';
 
@@ -491,6 +491,7 @@ export class Viewer {
           progress = (xhr.loaded / xhr.total) * 100;
           console.log("progress 2: ", progress);
           percentLoading.update((n) => (n = progress));
+          onProgressCallBack.update((v) => (v = !v));
         },
         function (e) {
           console.error(e);
