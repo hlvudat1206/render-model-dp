@@ -25,9 +25,9 @@
       }
     }
   })(_0x4e29, 0x2a8c1);
-  import * as _0x2ee895 from "../build/three.module";
+  import * as _0x2ee895 from "../build/three.module.js";
   import { onMount, tick } from "svelte";
-  import { Viewer } from "./lib/scene-config/viewer";
+  import { Viewer } from "./lib/scene-config/viewer.js";
   import _0x209e31 from "../js/query-string-main/index.js";
   import _0x2b2453 from "../js/WebGL.js";
   function _0x4d75(_0x47be92, _0x275816) {
@@ -41,7 +41,7 @@
       _0x4d75(_0x47be92, _0x275816)
     );
   }
-  import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer";
+  import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer.js";
   import {
     statusLoading,
     percentLoading,

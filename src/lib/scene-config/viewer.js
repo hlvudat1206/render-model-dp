@@ -65,7 +65,7 @@ function _0x7ee5(_0x1601ac, _0x430615) {
 }
 import { EXRLoader } from "../../../js/EXRLoader.js";
 import { RoomEnvironment } from "../../../js/RoomEnvironment.js";
-import * as _0x419ddc from "../../../build/three.module";
+import * as _0x419ddc from "../../../build/three.module.js";
 import { CSS2DRenderer, CSS2DObject } from "../../../js/CSS2DRenderer.js";
 import { GUI } from "../../../build/dat.gui.module.js";
 import { TWEEN } from "../../../js/tween.module.min.js";
