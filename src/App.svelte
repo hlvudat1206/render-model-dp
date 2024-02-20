@@ -100,7 +100,7 @@
       "#000000",
       "isWebGLAvailable",
       "FileList",
-      "src/models/livingRoom/livingRoom.png",
+      "src/models/livingRoom/livingroom.png",
       "278688UtUXtO",
       "src/models/bedroom/bedroom.png",
       "VIEWER",
