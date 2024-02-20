@@ -20,8 +20,6 @@ export default defineConfig({
   //   },
   // },
   server: {
-    hmr: {
-      host: "localhost",
-    },
+    origin: "http://127.0.0.1:5173",
   },
 });
