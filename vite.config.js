@@ -11,4 +11,17 @@ export default defineConfig({
   //     "@": path.resolve(__dirname, "./src"),
   //   },
   // },
+  // server: {
+  //   host: "127.0.0.1", // replace with the IP address of the Homestead machine
+  //   https: false,
+  //   cors: false,
+  //   hmr: {
+  //     host: "127.0.0.1", // replace with the IP address of the Homestead machine
+  //   },
+  // },
+  server: {
+    hmr: {
+      host: "localhost",
+    },
+  },
 });
