@@ -54,22 +54,22 @@
       {
         id: 0x1,
         path: _0x5dcd32(0x190),
-        image: "src/models/motorcycle/honda/motocycle.png",
+        image: "./src/models/motorcycle/honda/motocycle.png",
       },
       { id: 0x2, path: _0x5dcd32(0x1bc), image: _0x5dcd32(0x1bf) },
       {
         id: 0x3,
         path: _0x5dcd32(0x1dc),
-        image: "src/models/bentlyCar/bentlyCar.png",
+        image: "./src/models/bentlyCar/bentlyCar.png",
       },
       {
         id: 0x3,
         path: _0x5dcd32(0x199),
-        image: "src/models/rustyCar/rustyCar.png",
+        image: "./src/models/rustyCar/rustyCar.png",
       },
       {
         id: 0x4,
-        path: "src/models/bedroom/scene.gltf",
+        path: "./src/models/bedroom/scene.gltf",
         image: _0x5dcd32(0x1b5),
       },
       { id: 0x5, path: _0x5dcd32(0x18a), image: _0x5dcd32(0x1de) },
@@ -78,7 +78,7 @@
       {
         id: 0x8,
         path: _0x5dcd32(0x19c),
-        image: "src/models/modernBedroom/modernBedroom.png",
+        image: "./src/models/modernBedroom/modernBedroom.png",
       },
     ],
     infoUrlPng = _0x5dcd32(0x18c);
