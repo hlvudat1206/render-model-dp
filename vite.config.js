@@ -6,11 +6,11 @@ import path from "path";
 export default defineConfig({
   plugins: [svelte()],
   base: "/render-model-dp/",
-  // resolve: {
-  //   alias: {
-  //     "@": path.resolve(__dirname, "./src"),
-  //   },
-  // },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
   // server: {
   //   host: "127.0.0.1", // replace with the IP address of the Homestead machine
   //   https: false,

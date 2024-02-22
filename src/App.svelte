@@ -54,13 +54,13 @@
       {
         id: 0x1,
         path: _0x5dcd32(0x190),
-        image: "./src/models/motorcycle/honda/motocycle.png",
+        image: "./src/models/motorcycle/honda/motocycle.PNG",
       },
       { id: 0x2, path: _0x5dcd32(0x1bc), image: _0x5dcd32(0x1bf) },
       {
         id: 0x3,
         path: _0x5dcd32(0x1dc),
-        image: "./src/models/bentlyCar/bentlyCar.png",
+        image: "./src/models/bentlyCar/bentlyCar.PNG",
       },
       {
         id: 0x3,
