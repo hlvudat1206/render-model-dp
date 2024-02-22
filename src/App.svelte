@@ -1,380 +1,332 @@
 <script>
-  const _0x5dcd32 = _0x4d75;
-  (function (_0x111542, _0x6a2436) {
-    const _0x3c6dd5 = _0x4d75,
-      _0x15ddb0 = _0x111542();
-    while (!![]) {
-      try {
-        const _0x3298e6 =
-          (parseInt(_0x3c6dd5(0x196)) / 0x1) *
-            (parseInt(_0x3c6dd5(0x18d)) / 0x2) +
-          -parseInt(_0x3c6dd5(0x1b4)) / 0x3 +
-          (-parseInt(_0x3c6dd5(0x1d4)) / 0x4) *
-            (-parseInt(_0x3c6dd5(0x192)) / 0x5) +
-          -parseInt(_0x3c6dd5(0x1bb)) / 0x6 +
-          (parseInt(_0x3c6dd5(0x1c4)) / 0x7) *
-            (parseInt(_0x3c6dd5(0x19e)) / 0x8) +
-          (-parseInt(_0x3c6dd5(0x1db)) / 0x9) *
-            (-parseInt(_0x3c6dd5(0x19f)) / 0xa) +
-          (-parseInt(_0x3c6dd5(0x1ce)) / 0xb) *
-            (parseInt(_0x3c6dd5(0x1d8)) / 0xc);
-        if (_0x3298e6 === _0x6a2436) break;
-        else _0x15ddb0["push"](_0x15ddb0["shift"]());
-      } catch (_0x5bc235) {
-        _0x15ddb0["push"](_0x15ddb0["shift"]());
-      }
-    }
-  })(_0x4e29, 0x2a8c1);
-  import * as _0x2ee895 from "../build/three.module.js";
+  import * as THREE from "../build/three.module";
   import { onMount, tick } from "svelte";
-  import { Viewer } from "./lib/scene-config/viewer.js";
-  import _0x209e31 from "../js/query-string-main/index.js";
-  import _0x2b2453 from "../js/WebGL.js";
-  function _0x4d75(_0x47be92, _0x275816) {
-    const _0x4e291f = _0x4e29();
-    return (
-      (_0x4d75 = function (_0x4d757a, _0x173ff2) {
-        _0x4d757a = _0x4d757a - 0x189;
-        let _0x2f30df = _0x4e291f[_0x4d757a];
-        return _0x2f30df;
-      }),
-      _0x4d75(_0x47be92, _0x275816)
-    );
-  }
-  import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer.js";
+
+  import { Viewer } from "./lib/scene-config/viewer";
+  import queryString from "../js/query-string-main/index.js";
+  import WebGL from "../js/WebGL.js";
+  import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer";
   import {
     statusLoading,
     percentLoading,
     onProgressCallBack,
   } from "./lib/scene-config/store.js";
   import { ResizeObserverSingleton } from "svelte/internal";
-  let scene,
-    motoModel = _0x5dcd32(0x18a),
-    modelList = [
-      {
-        id: 0x1,
-        path: _0x5dcd32(0x190),
-        image: "./src/models/motorcycle/honda/motocycle.PNG",
-      },
-      { id: 0x2, path: _0x5dcd32(0x1bc), image: _0x5dcd32(0x1bf) },
-      {
-        id: 0x3,
-        path: _0x5dcd32(0x1dc),
-        image: "./src/models/bentlyCar/bentlyCar.PNG",
-      },
-      {
-        id: 0x3,
-        path: _0x5dcd32(0x199),
-        image: "./src/models/rustyCar/rustyCar.png",
-      },
-      {
-        id: 0x4,
-        path: "./src/models/bedroom/scene.gltf",
-        image: _0x5dcd32(0x1b5),
-      },
-      { id: 0x5, path: _0x5dcd32(0x18a), image: _0x5dcd32(0x1de) },
-      { id: 0x6, path: _0x5dcd32(0x1e4), image: _0x5dcd32(0x1b3) },
-      { id: 0x7, path: _0x5dcd32(0x1be), image: _0x5dcd32(0x1c3) },
-      {
-        id: 0x8,
-        path: _0x5dcd32(0x19c),
-        image: "./src/models/modernBedroom/modernBedroom.png",
-      },
-    ],
-    infoUrlPng = _0x5dcd32(0x18c);
-  function _0x4e29() {
-    const _0x41a646 = [
-      "emissiveIntensity",
-      "ior",
-      "vao\x20load\x201",
-      "split",
-      "log",
-      "alert",
-      "load",
-      "map",
-      "pos",
-      "The\x20File\x20APIs\x20are\x20not\x20fully\x20supported\x20in\x20this\x20browser.",
-      "Scene",
-      "hash",
-      "container",
-      "#000000",
-      "isWebGLAvailable",
-      "FileList",
-      "src/models/livingRoom/livingroom.png",
-      "278688UtUXtO",
-      "src/models/bedroom/bedroom.png",
-      "VIEWER",
-      "Blue",
-      "black",
-      "target",
-      "toString",
-      "933522kAiaYQ",
-      "src/models/porsche/scene.gltf",
-      "err:\x20",
-      "src/models/bedroomV2/scene.gltf",
-      "src/models/porsche/porsche.png",
-      "MeshPhysicalMaterial",
-      "catch",
-      "itemmm:\x20",
-      "src/models/bedroomV2/bedroomv2.png",
-      "1468733ZOEKjx",
-      "gltff:\x20",
-      "#ffc0cb",
-      "statusLoading11:",
-      "hasssh:\x20",
-      "File",
-      "Missing\x20texture:\x20",
-      "#0000ff",
-      "scale",
-      "Mesh",
-      "3454zxKeXq",
-      "Blob",
-      "getElementById",
-      "kiosk",
-      "error",
-      "preset",
-      "772QPocTF",
-      "#ffff00",
-      "mouseMove",
-      "position",
-      "6756hLcXxv",
-      "SphereGeometry",
-      "1111111111",
-      "1017DjXDhS",
-      "src/models/bentlyCar/scene.gltf",
-      "copy",
-      "src/models/rustybike/rustymotobike.png",
-      "transmission",
-      "Red",
-      "detail\x20Object",
-      "insertBefore",
-      "Unable\x20to\x20parse\x20file\x20content.\x20Verify\x20that\x20this\x20file\x20is\x20valid.\x20Error:\x20\x22",
-      "src/models/livingRoom/scene.gltf",
-      "color",
-      "Color",
-      "icon",
-      "axesDom",
-      "set",
-      "blue\x20&\x20black",
-      "content",
-      "guiDom",
-      "src/models/rustybike/scene.gltf",
-      "Default",
-      "src/assets/icons/info-icon.png",
-      "21174qaawmW",
-      "#ff0000",
-      "Yellow",
-      "src/models/motorcycle/honda/motorbike.gltf",
-      "envMapIntensity",
-      "1685HZLBDz",
-      "rendererDom",
-      "message",
-      "specularIntensity",
-      "25ihwTVi",
-      "then",
-      "viewer.interactiveObject():\x20",
-      "src/models/rustyCar/scene.gltf",
-      "#043561",
-      "cameraPosition",
-      "src/models/modernBedroom/scene.gltf",
-      "model",
-      "8AZFiOJ",
-      "5310cYMLLc",
-      "thickness",
-      "subscribe",
-      "src",
-    ];
-    _0x4e29 = function () {
-      return _0x41a646;
-    };
-    return _0x4e29();
-  }
-  statusLoading[_0x5dcd32(0x1a1)]((_0x1aac2a) => {
-    const _0x3e3857 = _0x5dcd32;
-    console[_0x3e3857(0x1a7)](_0x3e3857(0x1c7), _0x1aac2a);
+
+  let scene;
+  // let motoModel = "src/models/motorcycle/honda/motorbike.gltf";
+  // let motoModel = "src/models/bedroom/scene.gltf";
+  // let motoModel = "src/models/livingRoom/scene.gltf";
+  let motoModel = "src/models/rustybike/scene.gltf";
+  let modelList = [
+    {
+      id: 1,
+      path: "src/models/motorcycle/honda/motorbike.gltf",
+      image: "src/models/motorcycle/honda/motocycle.png",
+    },
+    {
+      id: 2,
+      path: "src/models/porsche/scene.gltf",
+      image: "src/models/porsche/porsche.png",
+    },
+    {
+      id: 3,
+      path: "src/models/bentlyCar/scene.gltf",
+      image: "src/models/bentlyCar/bentlyCar.png",
+    },
+    {
+      id: 3,
+      path: "src/models/rustyCar/scene.gltf",
+      image: "src/models/rustyCar/rustyCar.png",
+    },
+    {
+      id: 4,
+      path: "src/models/bedroom/scene.gltf",
+      image: "src/models/bedroom/bedroom.png",
+    },
+    {
+      id: 5,
+      path: "src/models/rustybike/scene.gltf",
+      image: "src/models/rustybike/rustymotobike.png",
+    },
+    {
+      id: 6,
+      path: "src/models/livingRoom/scene.gltf",
+      image: "src/models/livingRoom/livingRoom.png",
+    },
+    {
+      id: 7,
+      path: "src/models/bedroomV2/scene.gltf",
+      image: "src/models/bedroomV2/bedroomv2.png",
+    },
+    {
+      id: 8,
+      path: "src/models/modernBedroom/scene.gltf",
+      image: "src/models/modernBedroom/modernBedroom.png",
+    },
+  ];
+
+  let infoUrlPng = "src/assets/icons/info-icon.png";
+  // let statusLoad;
+  // let percentLoad;
+  // statusLoading.subscribe((value) => {
+  //   statusLoad = value;
+  // });
+  // percentLoading.subscribe((value) => {
+  //   percentLoad = value;
+  // });
+  statusLoading.subscribe((value) => {
+    console.log("statusLoading11:", value);
   });
-  _0x253d9d: console[_0x5dcd32(0x1a7)](
-    "status\x20percent:\x20",
+  $: console.log(
+    "status percent: ",
     $statusLoading,
     $percentLoading,
     $onProgressCallBack
   );
-  let viewer,
-    canvas,
-    sphere,
-    options,
-    onMenu = !![],
-    onMenuChangeColor = !![],
-    onMenuLookUp = ![],
-    onNote = ![],
-    motobike,
-    iconField,
-    colorArr = [
-      { id: 0x1, name: _0x5dcd32(0x18b), color: "#ffffff" },
-      { id: 0x2, name: "Pink", color: _0x5dcd32(0x1c6) },
-      { id: 0x3, name: _0x5dcd32(0x1e0), color: _0x5dcd32(0x18e) },
-      { id: 0x4, name: _0x5dcd32(0x18f), color: _0x5dcd32(0x1d5) },
-      { id: 0x5, name: _0x5dcd32(0x1b7), color: _0x5dcd32(0x1cb) },
-      { id: 0x6, name: "Green", color: "#008000" },
-      { id: 0x7, name: _0x5dcd32(0x1b8), color: _0x5dcd32(0x1b0) },
-      { id: 0x7, name: _0x5dcd32(0x1ea), color: _0x5dcd32(0x19a) },
-    ];
-  window[_0x5dcd32(0x1b6)] = {};
-  if (
-    !(
-      window[_0x5dcd32(0x1c9)] &&
-      window["FileReader"] &&
-      window[_0x5dcd32(0x1b2)] &&
-      window[_0x5dcd32(0x1cf)]
-    )
-  )
-    console[_0x5dcd32(0x1d2)](_0x5dcd32(0x1ac));
-  else
-    !_0x2b2453[_0x5dcd32(0x1b1)]() &&
-      console[_0x5dcd32(0x1d2)](
-        "WebGL\x20is\x20not\x20supported\x20in\x20this\x20browser."
-      );
+  let viewer;
+  let canvas;
+  let sphere;
+  let options;
+  let onMenu = true;
+  let onMenuChangeColor = true;
+  let onMenuLookUp = false;
+  let onNote = false;
+  let motobike;
+  let iconField;
+  let colorArr = [
+    {
+      id: 1,
+      name: "Default",
+      color: "#ffffff",
+    },
+    {
+      id: 2,
+      name: "Pink",
+      color: "#ffc0cb",
+    },
+    {
+      id: 3,
+      name: "Red",
+      color: "#ff0000",
+    },
+    {
+      id: 4,
+      name: "Yellow",
+      color: "#ffff00",
+    },
+    {
+      id: 5,
+      name: "Blue",
+      color: "#0000ff",
+    },
+    {
+      id: 6,
+      name: "Green",
+      color: "#008000",
+    },
+    {
+      id: 7,
+      name: "black",
+      color: "#000000",
+    },
+    {
+      id: 7,
+      name: "blue & black",
+      color: "#043561",
+    },
+  ];
+  window.VIEWER = {};
+
+  if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
+    console.error("The File APIs are not fully supported in this browser.");
+  } else if (!WebGL.isWebGLAvailable()) {
+    console.error("WebGL is not supported in this browser.");
+  }
+
   const init = () => {
-    const _0x150c33 = _0x5dcd32,
-      _0x1c7301 = location[_0x150c33(0x1ae)]
-        ? _0x209e31["parse"](location[_0x150c33(0x1ae)])
-        : {};
-    console[_0x150c33(0x1a7)](_0x150c33(0x1c8), _0x1c7301, location),
-      (options = {
-        kiosk: Boolean(_0x1c7301[_0x150c33(0x1d1)]),
-        model: _0x1c7301[_0x150c33(0x19d)] || "",
-        preset: _0x1c7301[_0x150c33(0x1d3)] || "",
-        cameraPosition: _0x1c7301[_0x150c33(0x19b)]
-          ? _0x1c7301[_0x150c33(0x19b)]["split"](",")[_0x150c33(0x1aa)](Number)
-          : null,
-      });
-    let _0x36c32c = document[_0x150c33(0x1d0)](_0x150c33(0x1af));
-    (scene = new _0x2ee895[_0x150c33(0x1ad)]()),
-      (viewer = new Viewer(_0x36c32c, options)),
-      loadModel(motoModel);
-    let _0x2bbb53 = new _0x2ee895[_0x150c33(0x1c0)]();
-    (_0x2bbb53[_0x150c33(0x1e5)] = new _0x2ee895[_0x150c33(0x1e6)](
-      0x1,
-      0x1,
-      0x1
-    )),
-      (_0x2bbb53[_0x150c33(0x1df)] = 0x1),
-      (_0x2bbb53["roughness"] = 0x0),
-      (_0x2bbb53[_0x150c33(0x1a4)] = 0x2),
-      (_0x2bbb53[_0x150c33(0x1a0)] = 0.6),
-      (_0x2bbb53[_0x150c33(0x195)] = 0x1),
-      (_0x2bbb53[_0x150c33(0x191)] = 0x0),
-      (_0x2bbb53[_0x150c33(0x1a3)] = 0x0),
-      (sphere = new _0x2ee895[_0x150c33(0x1cd)](
-        new _0x2ee895[_0x150c33(0x1d9)](),
-        _0x2bbb53
-      )),
-      sphere[_0x150c33(0x1cc)][_0x150c33(0x1e9)](0.2, 0.2, 0.2),
-      sphere["position"][_0x150c33(0x1e9)](0x0, 0x0, 0x0);
-    const _0x4054d1 = document[_0x150c33(0x1d0)]("main");
-    let _0x49b205 = document["getElementById"]("header"),
-      _0x24c6f2 = document["getElementById"](_0x150c33(0x1eb)),
-      _0x5eb682 = document[_0x150c33(0x1d0)]("load-progress");
-    const _0x5d9931 = viewer[_0x150c33(0x193)](),
-      _0x1c8aa5 = _0x4054d1["firstChild"];
-    _0x4054d1[_0x150c33(0x1e2)](_0x49b205, _0x1c8aa5),
-      _0x4054d1["insertBefore"](_0x24c6f2, _0x1c8aa5),
-      _0x4054d1["insertBefore"](_0x5eb682, _0x1c8aa5),
-      _0x4054d1["insertBefore"](_0x5d9931, _0x1c8aa5);
-    const _0x1efc04 = viewer[_0x150c33(0x1e8)]();
-    _0x4054d1[_0x150c33(0x1e2)](_0x1efc04, _0x1c8aa5);
-    const _0x4c9c10 = viewer[_0x150c33(0x189)]();
-    _0x4054d1[_0x150c33(0x1e2)](_0x4c9c10, _0x1c8aa5);
-  };
-  function getInteractive() {
-    const _0x1917bb = _0x5dcd32;
-    console[_0x1917bb(0x1a7)](_0x1917bb(0x198), viewer["interactiveObject"]());
-  }
-  function loadIcontoObject(_0x1ee314, _0x118e7a) {
-    const _0x18e163 = _0x5dcd32;
-    return viewer[_0x18e163(0x1e7)](_0x1ee314, _0x118e7a);
-  }
-  function loadModel(_0x4fd300) {
-    const _0x393c08 = _0x5dcd32;
-    console[_0x393c08(0x1a7)](_0x393c08(0x1a5)), view(_0x4fd300);
-  }
-  function onError(_0x3e825b) {
-    const _0x28f718 = _0x5dcd32;
-    let _0x45a6a4 =
-      (_0x3e825b || {})[_0x28f718(0x194)] || _0x3e825b[_0x28f718(0x1ba)]();
-    if (_0x45a6a4["match"](/ProgressEvent/))
-      _0x45a6a4 =
-        "Unable\x20to\x20retrieve\x20this\x20file.\x20Check\x20JS\x20console\x20and\x20browser\x20network\x20tab.";
-    else {
-      if (_0x45a6a4["match"](/Unexpected token/))
-        _0x45a6a4 = _0x28f718(0x1e3) + _0x45a6a4 + "\x22";
-      else
-        _0x3e825b &&
-          _0x3e825b["target"] &&
-          _0x3e825b["target"] instanceof Image &&
-          (_0x45a6a4 =
-            _0x28f718(0x1ca) +
-            _0x3e825b[_0x28f718(0x1b9)][_0x28f718(0x1a2)]
-              [_0x28f718(0x1a6)]("/")
-              ["pop"]());
-    }
-    window[_0x28f718(0x1a8)](_0x45a6a4), console[_0x28f718(0x1d2)](_0x3e825b);
-  }
-  function view(_0x1bf443) {
-    const _0x18c493 = _0x5dcd32;
-    let _0xecafe0 = _0x1bf443;
-    viewer[_0x18c493(0x1a9)](_0xecafe0)
-      [_0x18c493(0x1c1)]((_0x383c7c) => {
-        const _0x2bdc0e = _0x18c493;
-        return (
-          console[_0x2bdc0e(0x1a7)](_0x2bdc0e(0x1bd), _0x383c7c),
-          onError(_0x383c7c)
-        );
-      })
-      [_0x18c493(0x197)]((_0x4076b1) => {
-        const _0x5ce693 = _0x18c493;
-        if (!options[_0x5ce693(0x1d1)]) {
-        }
-        console[_0x5ce693(0x1a7)](_0x5ce693(0x1c5), _0x4076b1),
-          (motobike = _0x4076b1);
-      });
-  }
-  const onColorArea = () => {
-      (onMenu = !onMenu), (onMenuChangeColor = !onMenuChangeColor);
-    },
-    interactObject = () => {
-      viewer["getCoordinate"]();
-    },
-    changeObject = (_0x35c3bc) => {
-      const _0x73f801 = _0x5dcd32;
-      console[_0x73f801(0x1a7)](_0x73f801(0x1c2), _0x35c3bc),
-        statusLoading[_0x73f801(0x1e9)](![]),
-        percentLoading[_0x73f801(0x1e9)](0x0),
-        view(_0x35c3bc["path"]);
-    },
-    onDetailObject = () => {
-      const _0x509901 = _0x5dcd32;
-      console[_0x509901(0x1a7)](_0x509901(0x1e1)),
-        (onMenuLookUp = !onMenuLookUp);
-    },
-    lookUpObject = (_0x277b30) => {
-      const _0x24d05d = _0x5dcd32;
-      onMenuLookUp
-        ? (viewer["createObject"](sphere),
-          sphere[_0x24d05d(0x1d7)][_0x24d05d(0x1dd)](
-            viewer[_0x24d05d(0x1d6)](_0x277b30)[_0x24d05d(0x1ab)]
-          ))
-        : viewer["removeObject"](sphere);
-    },
-    mouseEnter = () => {
-      const _0x620815 = _0x5dcd32;
-      console[_0x620815(0x1a7)](_0x620815(0x1da));
-    },
-    mouseEnterObject = (_0x4c9160) => {},
-    mouseLeaveObject = (_0x464b89) => {},
-    onNoteObject = (_0x34a62b) => {
-      onNote = !onNote;
+    const hash = location.hash ? queryString.parse(location.hash) : {};
+    console.log("hasssh: ", hash, location);
+    options = {
+      kiosk: Boolean(hash.kiosk),
+      model: hash.model || "",
+      preset: hash.preset || "",
+      cameraPosition: hash.cameraPosition
+        ? hash.cameraPosition.split(",").map(Number)
+        : null,
     };
+
+    let container = document.getElementById("container");
+
+    scene = new THREE.Scene();
+    viewer = new Viewer(container, options);
+    loadModel(motoModel);
+
+    // //create planeMesh
+    // const visiablePlane = new THREE.Mesh(
+    //   new THREE.PlaneGeometry(400, 200),
+    //   new THREE.MeshBasicMaterial({
+    //     color: 0x6f7a73,
+    //     side: THREE.DoubleSide,
+    //     visible: true,
+    //   })
+    // );
+
+    // visiablePlane.rotateX(Math.PI / 2);
+    // visiablePlane.name = "ground";
+    // visiablePlane.position.set(0, 10, 0);
+
+    // viewer.createObject(visiablePlane);
+
+    //create Glass
+    let glassMaterial = new THREE.MeshPhysicalMaterial();
+    glassMaterial.color = new THREE.Color(1, 1, 1);
+    glassMaterial.transmission = 1;
+    glassMaterial.roughness = 0;
+    glassMaterial.ior = 2;
+    glassMaterial.thickness = 0.6; //zoom 1
+    glassMaterial.specularIntensity = 1;
+    glassMaterial.envMapIntensity = 0;
+    glassMaterial.emissiveIntensity = 0;
+
+    // glassMaterial.reflectivity = 1; // zoom 2
+    sphere = new THREE.Mesh(new THREE.SphereGeometry(), glassMaterial);
+    sphere.scale.set(0.2, 0.2, 0.2);
+    sphere.position.set(0, 0, 0);
+    // viewer.createObject(sphere);
+
+    const mainLayer = document.getElementById("main");
+    let headerField = document.getElementById("header");
+    let contentField = document.getElementById("content");
+    let loadField = document.getElementById("load-progress");
+
+    //x: left --> right
+    //y: bottom --> top
+    //z: behind --> in front of
+
+    // Create a new child element
+
+    const canvasThree = viewer.rendererDom();
+
+    // Get the first child of the parent
+    const canvas = mainLayer.firstChild;
+    // Insert the new child before the first child
+
+    //Header
+    mainLayer.insertBefore(headerField, canvas);
+
+    //Content
+    mainLayer.insertBefore(contentField, canvas);
+    mainLayer.insertBefore(loadField, canvas);
+    //Canvas and Other areas
+    mainLayer.insertBefore(canvasThree, canvas);
+    const axesLayer = viewer.axesDom();
+    mainLayer.insertBefore(axesLayer, canvas);
+    const guiLayer = viewer.guiDom();
+    mainLayer.insertBefore(guiLayer, canvas);
+  };
+
+  function getInteractive() {
+    console.log("viewer.interactiveObject(): ", viewer.interactiveObject());
+  }
+
+  function loadIcontoObject(icon, pos) {
+    return viewer.icon(icon, pos);
+  }
+  function loadModel(path) {
+    console.log("vao load 1");
+    view(path);
+    // sendData()
+  }
+
+  /**
+   * @param  {Error} error
+   */
+  function onError(error) {
+    let message = (error || {}).message || error.toString();
+    if (message.match(/ProgressEvent/)) {
+      message =
+        "Unable to retrieve this file. Check JS console and browser network tab.";
+    } else if (message.match(/Unexpected token/)) {
+      message = `Unable to parse file content. Verify that this file is valid. Error: "${message}"`;
+    } else if (error && error.target && error.target instanceof Image) {
+      message = "Missing texture: " + error.target.src.split("/").pop();
+    }
+    window.alert(message);
+    console.error(error);
+  }
+
+  function view(path) {
+    let fileURL = path;
+    viewer
+      .load(fileURL)
+
+      .catch((e) => {
+        console.log("err: ", e);
+        return onError(e);
+      })
+      .then((gltf) => {
+        if (!options.kiosk) {
+          // this.validationCtrl.validate(fileURL, rootPath, fileMap, gltf);
+        }
+        console.log("gltff: ", gltf);
+        motobike = gltf;
+        // cleanup();
+      });
+    // console.log('in rootPath: ',rootPath)
+    // console.log('in fileMap: ',fileMap)
+  }
+
+  const onColorArea = () => {
+    onMenu = !onMenu;
+    onMenuChangeColor = !onMenuChangeColor;
+  };
+
+  const interactObject = () => {
+    viewer.getCoordinate();
+  };
+
+  const changeObject = (item) => {
+    console.log("itemmm: ", item);
+    statusLoading.set(false);
+    percentLoading.set(0);
+    view(item.path);
+  };
+
+  const onDetailObject = () => {
+    console.log("detail Object");
+    onMenuLookUp = !onMenuLookUp;
+  };
+
+  const lookUpObject = (e) => {
+    if (onMenuLookUp) {
+      viewer.createObject(sphere);
+
+      sphere.position.copy(viewer.mouseMove(e).pos);
+    } else {
+      viewer.removeObject(sphere);
+    }
+  };
+  const mouseEnter = () => {
+    console.log("1111111111");
+  };
+  const mouseEnterObject = (e) => {
+    // document
+    //   .getElementById("imgElement")
+    //   .addEventListener("click", function (e) {
+    //     console.log("1212a");
+    //   });
+    // console.log("mouse enter: ", e);
+  };
+
+  const mouseLeaveObject = (e) => {
+    // console.log("mouse leave: ", e);
+  };
+
+  const onNoteObject = (e) => {
+    onNote = !onNote;
+  };
+
   onMount(() => {
     init();
   });
@@ -461,9 +413,11 @@
 
 <style>
   .cover-progress {
+    /* filter: blur(2px); */
     border-radius: 5%;
     height: 80%;
     width: 30%;
+    /* background-color: #000000; */
     display: flex;
     align-items: center;
     margin-left: 10%;
@@ -493,28 +447,39 @@
     justify-content: center;
   }
   .menu-header {
+    padding-right: 25px;
+    padding-left: 25px;
     z-index: 9999;
     margin-left: 15px;
     margin-right: 5px;
-    padding: 5px 25px;
+    padding-bottom: 5px;
+    padding-top: 5px;
   }
   .menu-header:hover {
     cursor: pointer;
-    background-color: #77c7c7;
+    background-color: rgb(119, 199, 199);
     border-radius: 5px;
   }
+
   .menu-header-activing {
     margin-left: 3px;
+
     border-bottom: 3.5px solid #5c5586;
   }
+
   .header {
     width: 30%;
+    height: 72px;
+    position: relative;
+
     background-size: 100%;
     background-attachment: fixed;
     border: 1px solid rgba(255, 255, 255, 0.1);
+
     cursor: move;
     color: #363636;
     text-align: center;
+    font: sans-serif;
     font-weight: 600;
     padding: 4px;
     display: flex;
@@ -525,13 +490,13 @@
     left: 35%;
     right: 0.5;
     border-radius: 10px;
-    background-color: #add8e6;
-    box-shadow: 0 0 16px #000;
-    -webkit-transition: 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
-    -moz-transition: 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
-    -o-transition: 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
+    background-color: lightblue;
+    box-shadow: 0 0 16px black;
+    -webkit-transition: all 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
+    -moz-transition: all 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
+    -o-transition: all 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
     -ms-transition: all 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
-    transition: 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
+    transition: all 0.25s cubic-bezier(0.52, 0.76, 0.52, 0.76);
   }
   .header:before {
     display: block;
@@ -548,8 +513,10 @@
     filter: blur(15px);
     opacity: 0.9;
     content: " ";
-    background: url(src/assets/bluesky.jpg) center/cover no-repeat fixed #add8e6;
+    background: lightblue url("src/assets/bluesky.jpg") no-repeat fixed center;
+    background-size: cover;
   }
+
   #main {
     width: 100%;
     height: 100%;
@@ -559,58 +526,79 @@
     top: 0;
     z-index: 0;
   }
+  /* .full-screen {
+    margin: 0 !important;
+    padding: 0 !important;
+  } */
+
   .view-button {
     left: 50%;
     position: fixed;
     bottom: 20px;
     transform: translate(-50%, -50%);
-    z-index: 1000;
+    z-index: 1000; /* Ensure the button appears on top of the canvas */
   }
+
   aside {
     position: absolute;
     left: -500px;
-    transition: 0.5s;
+    transition: all 0.5s;
+
     height: 80%;
     width: 20%;
     top: 10%;
     bottom: 10%;
     border: 1px solid #ddd;
+    /* background-color: #ffe7e7; */
     border-radius: 12px;
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    background-color: #add8e6;
+    background-color: lightblue;
   }
+
   .onMenu {
-    left: 0;
+    left: 0px;
   }
+
   .card {
     display: flex;
+    /* position: absolute; */
+    /* height: 50%; */
     flex-wrap: wrap;
-    overflow-y: auto;
+    overflow-y: auto; /* Add vertical scrollbar if needed */
   }
+
   .card::-webkit-scrollbar {
-    width: 12px;
+    width: 12px; /* Width of the scrollbar */
   }
+
   .card::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #f1f1f1; /* Background color of the track */
   }
+
   .card::-webkit-scrollbar-thumb {
-    background: #5c5586;
-    border-radius: 6px;
+    background: #5c5586; /* Background color of the thumb */
+    border-radius: 6px; /* Border radius of the thumb */
   }
   .setting-card {
     margin-bottom: 15px;
     width: 300px;
     height: 200px;
+    /* background-size: 295px; */
     background-size: 295px 200px;
+
+    /* background-size: cover; */
     background-position: center;
     border-radius: 10px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   }
+
   .setting-card:hover {
-    box-shadow: 0 0 8px #000;
+    box-shadow: 0 0 8px black;
     cursor: pointer;
   }
+
   .icon {
     position: absolute;
   }
