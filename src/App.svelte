@@ -511,7 +511,8 @@
     filter: blur(15px);
     opacity: 0.9;
     content: " ";
-    background: lightblue url("./assets/bluesky.jpg") no-repeat fixed center;
+    background: lightblue url("@public/assets/bluesky.jpg") no-repeat fixed
+      center;
     background-size: cover;
   }
 
