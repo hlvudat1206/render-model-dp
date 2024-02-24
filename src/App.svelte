@@ -1,330 +1,362 @@
 <script>
-  import * as THREE from "@build/three.module.js";
+  function _0x1c5a() {
+    const _0x382740 = [
+      "#ffff00",
+      "message",
+      "92903MPkrva",
+      "preset",
+      "hash",
+      "162ovzldi",
+      "position",
+      "thickness",
+      "itemmm:\x20",
+      "VIEWER",
+      "axesDom",
+      "statusLoading11:",
+      "removeObject",
+      "930255RnTcmo",
+      "./models/bedroom/scene.gltf",
+      "pop",
+      "./models/rustyCar/scene.gltf",
+      "getCoordinate",
+      "transmission",
+      "1088835euTKSr",
+      "main",
+      "Scene",
+      "hasssh:\x20",
+      "#043561",
+      "kiosk",
+      "Blue",
+      "20PhGzbp",
+      "#0000ff",
+      "set",
+      "Pink",
+      "MeshPhysicalMaterial",
+      "#ff0000",
+      "subscribe",
+      "toString",
+      "198842TKZrqC",
+      "./models/porsche/porsche.png",
+      "match",
+      "ior",
+      "#008000",
+      "./models/porsche/scene.gltf",
+      "log",
+      "rendererDom",
+      "content",
+      "SphereGeometry",
+      "./models/bedroomV2/scene.gltf",
+      "target",
+      "header",
+      "./models/bentlyCar/scene.gltf",
+      "WebGL\x20is\x20not\x20supported\x20in\x20this\x20browser.",
+      "222avlpQd",
+      "vao\x20load\x201",
+      "copy",
+      "Unable\x20to\x20retrieve\x20this\x20file.\x20Check\x20JS\x20console\x20and\x20browser\x20network\x20tab.",
+      "721360WjYFGZ",
+      "The\x20File\x20APIs\x20are\x20not\x20fully\x20supported\x20in\x20this\x20browser.",
+      "120ZkpnFP",
+      "blue\x20&\x20black",
+      "./models/livingRoom/livingroom.png",
+      "File",
+      "Color",
+      "./models/motorcycle/honda/motorbike.gltf",
+      "error",
+      "1111111111",
+      "parse",
+      "./models/rustybike/scene.gltf",
+      "./models/rustyCar/rustyCar.png",
+      "./models/bedroomV2/bedroomv2.png",
+      "src/assets/icons/info-icon.png",
+      "14BTTfDK",
+      "./models/modernBedroom/modernBedroom.png",
+      "./models/modernBedroom/scene.gltf",
+      "isWebGLAvailable",
+      "Missing\x20texture:\x20",
+      "path",
+      "#ffc0cb",
+      "insertBefore",
+      "split",
+      "Mesh",
+      "cameraPosition",
+      "pos",
+      "err:\x20",
+      "10733930ElKJje",
+      "viewer.interactiveObject():\x20",
+      "Blob",
+      "./models/bedroom/bedroom.png",
+      "gltff:\x20",
+      "getElementById",
+      "Red",
+      "./models/livingRoom/scene.gltf",
+      "alert",
+      "container",
+      "load",
+      "269392bhqiSC",
+      "envMapIntensity",
+      "load-progress",
+      "./models/rustybike/rustymotobike.png",
+      "black",
+      "specularIntensity",
+      "Default",
+    ];
+    _0x1c5a = function () {
+      return _0x382740;
+    };
+    return _0x1c5a();
+  }
+  const _0x22458b = _0x38ce;
+  (function (_0x484650, _0x1d080e) {
+    const _0x50e6cd = _0x38ce,
+      _0x2b3c0d = _0x484650();
+    while (!![]) {
+      try {
+        const _0x2f7447 =
+          (parseInt(_0x50e6cd(0x1c6)) / 0x1) *
+            (-parseInt(_0x50e6cd(0x1a5)) / 0x2) +
+          parseInt(_0x50e6cd(0x16e)) / 0x3 +
+          (parseInt(_0x50e6cd(0x17b)) / 0x4) *
+            (-parseInt(_0x50e6cd(0x196)) / 0x5) +
+          (-parseInt(_0x50e6cd(0x192)) / 0x6) *
+            (-parseInt(_0x50e6cd(0x183)) / 0x7) +
+          (parseInt(_0x50e6cd(0x1bd)) / 0x8) *
+            (parseInt(_0x50e6cd(0x1c9)) / 0x9) +
+          parseInt(_0x50e6cd(0x1b2)) / 0xa +
+          (parseInt(_0x50e6cd(0x174)) / 0xb) *
+            (-parseInt(_0x50e6cd(0x198)) / 0xc);
+        if (_0x2f7447 === _0x1d080e) break;
+        else _0x2b3c0d["push"](_0x2b3c0d["shift"]());
+      } catch (_0x593cb4) {
+        _0x2b3c0d["push"](_0x2b3c0d["shift"]());
+      }
+    }
+  })(_0x1c5a, 0xa5cbd);
+  import * as _0x35ac71 from "@build/three.module.js";
   import { onMount, tick } from "svelte";
-
   import { Viewer } from "./lib/scene-config/viewer";
-  import queryString from "@js/query-string-main/index.js";
-  import WebGL from "@js/WebGL.js";
+  import _0x4e1240 from "@js/query-string-main/index.js";
+  import _0x5f2144 from "@js/WebGL.js";
   import { CSS2DRenderer, CSS2DObject } from "@js/CSS2DRenderer";
+  function _0x38ce(_0x143be2, _0x2b00d6) {
+    const _0x1c5af0 = _0x1c5a();
+    return (
+      (_0x38ce = function (_0x38cef5, _0x3e987f) {
+        _0x38cef5 = _0x38cef5 - 0x16c;
+        let _0x15b38f = _0x1c5af0[_0x38cef5];
+        return _0x15b38f;
+      }),
+      _0x38ce(_0x143be2, _0x2b00d6)
+    );
+  }
   import {
     statusLoading,
     percentLoading,
     onProgressCallBack,
   } from "./lib/scene-config/store.js";
   import { ResizeObserverSingleton } from "svelte/internal";
-
-  let scene;
-
-  let motoModel = "./models/motorcycle/honda/motorbike.gltf";
-  let modelList = [
-    {
-      id: 1,
-      path: "./models/motorcycle/honda/motorbike.gltf",
-      image: "./models/motorcycle/honda/motocycle.png",
-    },
-    {
-      id: 2,
-      path: "./models/porsche/scene.gltf",
-      image: "./models/porsche/porsche.png",
-    },
-    {
-      id: 3,
-      path: "./models/bentlyCar/scene.gltf",
-      image: "./models/bentlyCar/bentlyCar.png",
-    },
-    {
-      id: 3,
-      path: "./models/rustyCar/scene.gltf",
-      image: "./models/rustyCar/rustyCar.png",
-    },
-    {
-      id: 4,
-      path: "./models/bedroom/scene.gltf",
-      image: "./models/bedroom/bedroom.png",
-    },
-    {
-      id: 5,
-      path: "./models/rustybike/scene.gltf",
-      image: "./models/rustybike/rustymotobike.png",
-    },
-    {
-      id: 6,
-      path: "./models/livingRoom/scene.gltf",
-      image: "./models/livingRoom/livingroom.png",
-    },
-    {
-      id: 7,
-      path: "./models/bedroomV2/scene.gltf",
-      image: "./models/bedroomV2/bedroomv2.png",
-    },
-    {
-      id: 8,
-      path: "./models/modernBedroom/scene.gltf",
-      image: "./models/modernBedroom/modernBedroom.png",
-    },
-  ];
-
-  let infoUrlPng = "src/assets/icons/info-icon.png";
-  // let statusLoad;
-  // let percentLoad;
-  // statusLoading.subscribe((value) => {
-  //   statusLoad = value;
-  // });
-  // percentLoading.subscribe((value) => {
-  //   percentLoad = value;
-  // });
-  statusLoading.subscribe((value) => {
-    console.log("statusLoading11:", value);
+  let scene,
+    motoModel = _0x22458b(0x19d),
+    modelList = [
+      {
+        id: 0x1,
+        path: _0x22458b(0x19d),
+        image: "./models/motorcycle/honda/motocycle.png",
+      },
+      { id: 0x2, path: _0x22458b(0x188), image: _0x22458b(0x184) },
+      {
+        id: 0x3,
+        path: _0x22458b(0x190),
+        image: "./models/bentlyCar/bentlyCar.png",
+      },
+      { id: 0x3, path: _0x22458b(0x171), image: _0x22458b(0x1a2) },
+      { id: 0x4, path: _0x22458b(0x16f), image: _0x22458b(0x1b5) },
+      { id: 0x5, path: _0x22458b(0x1a1), image: _0x22458b(0x1c0) },
+      { id: 0x6, path: _0x22458b(0x1b9), image: _0x22458b(0x19a) },
+      { id: 0x7, path: _0x22458b(0x18d), image: _0x22458b(0x1a3) },
+      { id: 0x8, path: _0x22458b(0x1a7), image: _0x22458b(0x1a6) },
+    ],
+    infoUrlPng = _0x22458b(0x1a4);
+  statusLoading[_0x22458b(0x181)]((_0x1a8360) => {
+    const _0x5be138 = _0x22458b;
+    console[_0x5be138(0x189)](_0x5be138(0x16c), _0x1a8360);
   });
-  $: console.log(
-    "status percent: ",
+  _0x3e7e99: console[_0x22458b(0x189)](
+    "status\x20percent:\x20",
     $statusLoading,
     $percentLoading,
     $onProgressCallBack
   );
-  let viewer;
-  let canvas;
-  let sphere;
-  let options;
-  let onMenu = true;
-  let onMenuChangeColor = true;
-  let onMenuLookUp = false;
-  let onNote = false;
-  let motobike;
-  let iconField;
-  let colorArr = [
-    {
-      id: 1,
-      name: "Default",
-      color: "#ffffff",
-    },
-    {
-      id: 2,
-      name: "Pink",
-      color: "#ffc0cb",
-    },
-    {
-      id: 3,
-      name: "Red",
-      color: "#ff0000",
-    },
-    {
-      id: 4,
-      name: "Yellow",
-      color: "#ffff00",
-    },
-    {
-      id: 5,
-      name: "Blue",
-      color: "#0000ff",
-    },
-    {
-      id: 6,
-      name: "Green",
-      color: "#008000",
-    },
-    {
-      id: 7,
-      name: "black",
-      color: "#000000",
-    },
-    {
-      id: 7,
-      name: "blue & black",
-      color: "#043561",
-    },
-  ];
-  window.VIEWER = {};
-
-  if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
-    console.error("The File APIs are not fully supported in this browser.");
-  } else if (!WebGL.isWebGLAvailable()) {
-    console.error("WebGL is not supported in this browser.");
-  }
-
+  let viewer,
+    canvas,
+    sphere,
+    options,
+    onMenu = !![],
+    onMenuChangeColor = !![],
+    onMenuLookUp = ![],
+    onNote = ![],
+    motobike,
+    iconField,
+    colorArr = [
+      { id: 0x1, name: _0x22458b(0x1c3), color: "#ffffff" },
+      { id: 0x2, name: _0x22458b(0x17e), color: _0x22458b(0x1ab) },
+      { id: 0x3, name: _0x22458b(0x1b8), color: _0x22458b(0x180) },
+      { id: 0x4, name: "Yellow", color: _0x22458b(0x1c4) },
+      { id: 0x5, name: _0x22458b(0x17a), color: _0x22458b(0x17c) },
+      { id: 0x6, name: "Green", color: _0x22458b(0x187) },
+      { id: 0x7, name: _0x22458b(0x1c1), color: "#000000" },
+      { id: 0x7, name: _0x22458b(0x199), color: _0x22458b(0x178) },
+    ];
+  window[_0x22458b(0x1cd)] = {};
+  if (
+    !(
+      window[_0x22458b(0x19b)] &&
+      window["FileReader"] &&
+      window["FileList"] &&
+      window[_0x22458b(0x1b4)]
+    )
+  )
+    console[_0x22458b(0x19e)](_0x22458b(0x197));
+  else !_0x5f2144[_0x22458b(0x1a8)]() && console["error"](_0x22458b(0x191));
   const init = () => {
-    const hash = location.hash ? queryString.parse(location.hash) : {};
-    console.log("hasssh: ", hash, location);
-    options = {
-      kiosk: Boolean(hash.kiosk),
-      model: hash.model || "",
-      preset: hash.preset || "",
-      cameraPosition: hash.cameraPosition
-        ? hash.cameraPosition.split(",").map(Number)
-        : null,
-    };
-
-    let container = document.getElementById("container");
-
-    scene = new THREE.Scene();
-    viewer = new Viewer(container, options);
-    loadModel(motoModel);
-
-    // //create planeMesh
-    // const visiablePlane = new THREE.Mesh(
-    //   new THREE.PlaneGeometry(400, 200),
-    //   new THREE.MeshBasicMaterial({
-    //     color: 0x6f7a73,
-    //     side: THREE.DoubleSide,
-    //     visible: true,
-    //   })
-    // );
-
-    // visiablePlane.rotateX(Math.PI / 2);
-    // visiablePlane.name = "ground";
-    // visiablePlane.position.set(0, 10, 0);
-
-    // viewer.createObject(visiablePlane);
-
-    //create Glass
-    let glassMaterial = new THREE.MeshPhysicalMaterial();
-    glassMaterial.color = new THREE.Color(1, 1, 1);
-    glassMaterial.transmission = 1;
-    glassMaterial.roughness = 0;
-    glassMaterial.ior = 2;
-    glassMaterial.thickness = 0.6; //zoom 1
-    glassMaterial.specularIntensity = 1;
-    glassMaterial.envMapIntensity = 0;
-    glassMaterial.emissiveIntensity = 0;
-
-    // glassMaterial.reflectivity = 1; // zoom 2
-    sphere = new THREE.Mesh(new THREE.SphereGeometry(), glassMaterial);
-    sphere.scale.set(0.2, 0.2, 0.2);
-    sphere.position.set(0, 0, 0);
-    // viewer.createObject(sphere);
-
-    const mainLayer = document.getElementById("main");
-    let headerField = document.getElementById("header");
-    let contentField = document.getElementById("content");
-    let loadField = document.getElementById("load-progress");
-
-    //x: left --> right
-    //y: bottom --> top
-    //z: behind --> in front of
-
-    // Create a new child element
-
-    const canvasThree = viewer.rendererDom();
-
-    // Get the first child of the parent
-    const canvas = mainLayer.firstChild;
-    // Insert the new child before the first child
-
-    //Header
-    mainLayer.insertBefore(headerField, canvas);
-
-    //Content
-    mainLayer.insertBefore(contentField, canvas);
-    mainLayer.insertBefore(loadField, canvas);
-    //Canvas and Other areas
-    mainLayer.insertBefore(canvasThree, canvas);
-    const axesLayer = viewer.axesDom();
-    mainLayer.insertBefore(axesLayer, canvas);
-    const guiLayer = viewer.guiDom();
-    mainLayer.insertBefore(guiLayer, canvas);
-  };
-
-  function getInteractive() {
-    console.log("viewer.interactiveObject(): ", viewer.interactiveObject());
-  }
-
-  function loadIcontoObject(icon, pos) {
-    return viewer.icon(icon, pos);
-  }
-  function loadModel(path) {
-    console.log("vao load 1");
-    view(path);
-    // sendData()
-  }
-
-  /**
-   * @param  {Error} error
-   */
-  function onError(error) {
-    let message = (error || {}).message || error.toString();
-    if (message.match(/ProgressEvent/)) {
-      message =
-        "Unable to retrieve this file. Check JS console and browser network tab.";
-    } else if (message.match(/Unexpected token/)) {
-      message = `Unable to parse file content. Verify that this file is valid. Error: "${message}"`;
-    } else if (error && error.target && error.target instanceof Image) {
-      message = "Missing texture: " + error.target.src.split("/").pop();
-    }
-    window.alert(message);
-    console.error(error);
-  }
-
-  function view(path) {
-    let fileURL = path;
-    viewer
-      .load(fileURL)
-
-      .catch((e) => {
-        console.log("err: ", e);
-        return onError(e);
-      })
-      .then((gltf) => {
-        if (!options.kiosk) {
-          // this.validationCtrl.validate(fileURL, rootPath, fileMap, gltf);
-        }
-        console.log("gltff: ", gltf);
-        motobike = gltf;
-        // cleanup();
+    const _0x110ed7 = _0x22458b,
+      _0x4e47b1 = location[_0x110ed7(0x1c8)]
+        ? _0x4e1240[_0x110ed7(0x1a0)](location["hash"])
+        : {};
+    console[_0x110ed7(0x189)](_0x110ed7(0x177), _0x4e47b1, location),
+      (options = {
+        kiosk: Boolean(_0x4e47b1["kiosk"]),
+        model: _0x4e47b1["model"] || "",
+        preset: _0x4e47b1[_0x110ed7(0x1c7)] || "",
+        cameraPosition: _0x4e47b1["cameraPosition"]
+          ? _0x4e47b1[_0x110ed7(0x1af)][_0x110ed7(0x1ad)](",")["map"](Number)
+          : null,
       });
-    // console.log('in rootPath: ',rootPath)
-    // console.log('in fileMap: ',fileMap)
+    let _0x546395 = document[_0x110ed7(0x1b7)](_0x110ed7(0x1bb));
+    (scene = new _0x35ac71[_0x110ed7(0x176)]()),
+      (viewer = new Viewer(_0x546395, options)),
+      loadModel(motoModel);
+    let _0x59052e = new _0x35ac71[_0x110ed7(0x17f)]();
+    (_0x59052e["color"] = new _0x35ac71[_0x110ed7(0x19c)](0x1, 0x1, 0x1)),
+      (_0x59052e[_0x110ed7(0x173)] = 0x1),
+      (_0x59052e["roughness"] = 0x0),
+      (_0x59052e[_0x110ed7(0x186)] = 0x2),
+      (_0x59052e[_0x110ed7(0x1cb)] = 0.6),
+      (_0x59052e[_0x110ed7(0x1c2)] = 0x1),
+      (_0x59052e[_0x110ed7(0x1be)] = 0x0),
+      (_0x59052e["emissiveIntensity"] = 0x0),
+      (sphere = new _0x35ac71[_0x110ed7(0x1ae)](
+        new _0x35ac71[_0x110ed7(0x18c)](),
+        _0x59052e
+      )),
+      sphere["scale"][_0x110ed7(0x17d)](0.2, 0.2, 0.2),
+      sphere[_0x110ed7(0x1ca)]["set"](0x0, 0x0, 0x0);
+    const _0x2f6b74 = document[_0x110ed7(0x1b7)](_0x110ed7(0x175));
+    let _0x5e1fa2 = document[_0x110ed7(0x1b7)](_0x110ed7(0x18f)),
+      _0x17192b = document[_0x110ed7(0x1b7)](_0x110ed7(0x18b)),
+      _0xd7ed36 = document[_0x110ed7(0x1b7)](_0x110ed7(0x1bf));
+    const _0x143e0b = viewer[_0x110ed7(0x18a)](),
+      _0x3711e4 = _0x2f6b74["firstChild"];
+    _0x2f6b74[_0x110ed7(0x1ac)](_0x5e1fa2, _0x3711e4),
+      _0x2f6b74["insertBefore"](_0x17192b, _0x3711e4),
+      _0x2f6b74["insertBefore"](_0xd7ed36, _0x3711e4),
+      _0x2f6b74[_0x110ed7(0x1ac)](_0x143e0b, _0x3711e4);
+    const _0x2215af = viewer[_0x110ed7(0x1ce)]();
+    _0x2f6b74[_0x110ed7(0x1ac)](_0x2215af, _0x3711e4);
+    const _0x3c1377 = viewer["guiDom"]();
+    _0x2f6b74[_0x110ed7(0x1ac)](_0x3c1377, _0x3711e4);
+  };
+  function getInteractive() {
+    const _0x9a84b2 = _0x22458b;
+    console[_0x9a84b2(0x189)](_0x9a84b2(0x1b3), viewer["interactiveObject"]());
   }
-
-  const onColorArea = () => {
-    onMenu = !onMenu;
-    onMenuChangeColor = !onMenuChangeColor;
-  };
-
-  const interactObject = () => {
-    viewer.getCoordinate();
-  };
-
-  const changeObject = (item) => {
-    console.log("itemmm: ", item);
-    statusLoading.set(false);
-    percentLoading.set(0);
-    view(item.path);
-  };
-
-  const onDetailObject = () => {
-    console.log("detail Object");
-    onMenuLookUp = !onMenuLookUp;
-  };
-
-  const lookUpObject = (e) => {
-    if (onMenuLookUp) {
-      viewer.createObject(sphere);
-
-      sphere.position.copy(viewer.mouseMove(e).pos);
-    } else {
-      viewer.removeObject(sphere);
+  function loadIcontoObject(_0x28a3a4, _0x736be8) {
+    return viewer["icon"](_0x28a3a4, _0x736be8);
+  }
+  function loadModel(_0x43a395) {
+    const _0x1fbc01 = _0x22458b;
+    console[_0x1fbc01(0x189)](_0x1fbc01(0x193)), view(_0x43a395);
+  }
+  function onError(_0x9dc863) {
+    const _0x31c10b = _0x22458b;
+    let _0x36e312 =
+      (_0x9dc863 || {})[_0x31c10b(0x1c5)] || _0x9dc863[_0x31c10b(0x182)]();
+    if (_0x36e312[_0x31c10b(0x185)](/ProgressEvent/))
+      _0x36e312 = _0x31c10b(0x195);
+    else {
+      if (_0x36e312["match"](/Unexpected token/))
+        _0x36e312 =
+          "Unable\x20to\x20parse\x20file\x20content.\x20Verify\x20that\x20this\x20file\x20is\x20valid.\x20Error:\x20\x22" +
+          _0x36e312 +
+          "\x22";
+      else
+        _0x9dc863 &&
+          _0x9dc863["target"] &&
+          _0x9dc863[_0x31c10b(0x18e)] instanceof Image &&
+          (_0x36e312 =
+            _0x31c10b(0x1a9) +
+            _0x9dc863[_0x31c10b(0x18e)]["src"]
+              [_0x31c10b(0x1ad)]("/")
+              [_0x31c10b(0x170)]());
     }
-  };
-  const mouseEnter = () => {
-    console.log("1111111111");
-  };
-  const mouseEnterObject = (e) => {
-    // document
-    //   .getElementById("imgElement")
-    //   .addEventListener("click", function (e) {
-    //     console.log("1212a");
-    //   });
-    // console.log("mouse enter: ", e);
-  };
-
-  const mouseLeaveObject = (e) => {
-    // console.log("mouse leave: ", e);
-  };
-
-  const onNoteObject = (e) => {
-    onNote = !onNote;
-  };
-
+    window[_0x31c10b(0x1ba)](_0x36e312), console[_0x31c10b(0x19e)](_0x9dc863);
+  }
+  function view(_0x492e94) {
+    const _0x2b3cad = _0x22458b;
+    let _0x57a0bf = _0x492e94;
+    viewer[_0x2b3cad(0x1bc)](_0x57a0bf)
+      ["catch"]((_0x3fe596) => {
+        const _0x4f3831 = _0x2b3cad;
+        return (
+          console[_0x4f3831(0x189)](_0x4f3831(0x1b1), _0x3fe596),
+          onError(_0x3fe596)
+        );
+      })
+      ["then"]((_0x2c698e) => {
+        const _0x4922aa = _0x2b3cad;
+        if (!options[_0x4922aa(0x179)]) {
+        }
+        console[_0x4922aa(0x189)](_0x4922aa(0x1b6), _0x2c698e),
+          (motobike = _0x2c698e);
+      });
+  }
+  const onColorArea = () => {
+      (onMenu = !onMenu), (onMenuChangeColor = !onMenuChangeColor);
+    },
+    interactObject = () => {
+      const _0x374408 = _0x22458b;
+      viewer[_0x374408(0x172)]();
+    },
+    changeObject = (_0x203caf) => {
+      const _0x12267c = _0x22458b;
+      console[_0x12267c(0x189)](_0x12267c(0x1cc), _0x203caf),
+        statusLoading["set"](![]),
+        percentLoading[_0x12267c(0x17d)](0x0),
+        view(_0x203caf[_0x12267c(0x1aa)]);
+    },
+    onDetailObject = () => {
+      const _0x523279 = _0x22458b;
+      console[_0x523279(0x189)]("detail\x20Object"),
+        (onMenuLookUp = !onMenuLookUp);
+    },
+    lookUpObject = (_0x85d788) => {
+      const _0x3b3654 = _0x22458b;
+      onMenuLookUp
+        ? (viewer["createObject"](sphere),
+          sphere[_0x3b3654(0x1ca)][_0x3b3654(0x194)](
+            viewer["mouseMove"](_0x85d788)[_0x3b3654(0x1b0)]
+          ))
+        : viewer[_0x3b3654(0x16d)](sphere);
+    },
+    mouseEnter = () => {
+      const _0x7ade2d = _0x22458b;
+      console[_0x7ade2d(0x189)](_0x7ade2d(0x19f));
+    },
+    mouseEnterObject = (_0x4d5ec9) => {},
+    mouseLeaveObject = (_0x2a6f90) => {},
+    onNoteObject = (_0x4778b6) => {
+      onNote = !onNote;
+    };
   onMount(() => {
     init();
   });
