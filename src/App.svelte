@@ -1,11 +1,11 @@
 <script>
-  import * as THREE from "../build/three.module";
+  import * as THREE from "@build/three.module.js";
   import { onMount, tick } from "svelte";
 
   import { Viewer } from "./lib/scene-config/viewer";
-  import queryString from "../js/query-string-main/index.js";
-  import WebGL from "../js/WebGL.js";
-  import { CSS2DRenderer, CSS2DObject } from "../js/CSS2DRenderer";
+  import queryString from "@js/query-string-main/index.js";
+  import WebGL from "@js/WebGL.js";
+  import { CSS2DRenderer, CSS2DObject } from "@js/CSS2DRenderer";
   import {
     statusLoading,
     percentLoading,
@@ -31,43 +31,43 @@
     },
     {
       id: 2,
-      path: "src/models/porsche/scene.gltf",
-      image: "src/models/porsche/porsche.png",
+      path: "./models/porsche/scene.gltf",
+      image: "./models/porsche/porsche.png",
     },
     {
       id: 3,
-      path: "src/models/bentlyCar/scene.gltf",
-      image: "src/models/bentlyCar/bentlyCar.png",
+      path: "./models/bentlyCar/scene.gltf",
+      image: "./models/bentlyCar/bentlyCar.png",
     },
     {
       id: 3,
-      path: "src/models/rustyCar/scene.gltf",
-      image: "src/models/rustyCar/rustyCar.png",
+      path: "./models/rustyCar/scene.gltf",
+      image: "./models/rustyCar/rustyCar.png",
     },
     {
       id: 4,
-      path: "src/models/bedroom/scene.gltf",
-      image: "src/models/bedroom/bedroom.png",
+      path: "./models/bedroom/scene.gltf",
+      image: "./models/bedroom/bedroom.png",
     },
     {
       id: 5,
-      path: "src/models/rustybike/scene.gltf",
-      image: "src/models/rustybike/rustymotobike.png",
+      path: "./models/rustybike/scene.gltf",
+      image: "./models/rustybike/rustymotobike.png",
     },
     {
       id: 6,
-      path: "src/models/livingRoom/scene.gltf",
-      image: "src/models/livingRoom/livingRoom.png",
+      path: "./models/livingRoom/scene.gltf",
+      image: "./models/livingRoom/livingRoom.png",
     },
     {
       id: 7,
-      path: "src/models/bedroomV2/scene.gltf",
-      image: "src/models/bedroomV2/bedroomv2.png",
+      path: "./models/bedroomV2/scene.gltf",
+      image: "./models/bedroomV2/bedroomv2.png",
     },
     {
       id: 8,
-      path: "src/models/modernBedroom/scene.gltf",
-      image: "src/models/modernBedroom/modernBedroom.png",
+      path: "./models/modernBedroom/scene.gltf",
+      image: "./models/modernBedroom/modernBedroom.png",
     },
   ];
 
@@ -360,14 +360,14 @@
       class="menu-header {onMenuChangeColor ? 'menu-header-activing' : ''}"
       on:click={onColorArea}
     >
-      <img src="src/assets/folder.png" alt="folder" width="40" height="30" />
+      <img src="./assets/folder.png" alt="folder" width="40" height="30" />
     </div>
     <div
       class="menu-header {onMenuLookUp ? 'menu-header-activing' : ''}"
       on:click={onDetailObject}
     >
       <img
-        src="src/assets/magnifying-glass.png"
+        src="./assets/magnifying-glass.png"
         alt="magnifying-glass"
         width="40"
         height="30"

@@ -20,23 +20,23 @@ import {
   sRGBEncoding,
   LinearToneMapping,
   ACESFilmicToneMapping,
-} from "../../../build/three.module";
-import Stats from "../../../js/stats.module.js";
-import { GLTFLoader } from "../../../js/GLTFLoader.js";
-import { KTX2Loader } from "../../../js/KTX2Loader.js";
-import { DRACOLoader } from "../../../js/DRACOLoader.js";
-import { MeshoptDecoder } from "../../../js/meshopt_decoder.module.js";
-import { OrbitControls } from "../../../js/OrbitControls.js";
-import { EXRLoader } from "../../../js/EXRLoader.js";
-import { RoomEnvironment } from "../../../js/RoomEnvironment.js";
-import * as THREE from "../../../build/three.module";
-import { CSS2DRenderer, CSS2DObject } from "../../../js/CSS2DRenderer.js";
+} from "@build/three.module.js";
+import Stats from "@js/stats.module.js";
+import { GLTFLoader } from "@js/GLTFLoader.js";
+import { KTX2Loader } from "@js/KTX2Loader.js";
+import { DRACOLoader } from "@js/DRACOLoader.js";
+import { MeshoptDecoder } from "@js/meshopt_decoder.module.js";
+import { OrbitControls } from "@js/OrbitControls.js";
+import { EXRLoader } from "@js/EXRLoader.js";
+import { RoomEnvironment } from "@js/RoomEnvironment.js";
+import * as THREE from "@build/three.module";
+import { CSS2DRenderer, CSS2DObject } from "@js/CSS2DRenderer.js";
 
 // import { GUI } from "../js/lil-gui.module.min.js";
-import { GUI } from "../../../build/dat.gui.module.js";
-import { TWEEN } from "../../../js/tween.module.min.js";
+import { GUI } from "@build/dat.gui.module.js";
+import { TWEEN } from "@js/tween.module.min.js";
 
-import { environments } from "../../assets/environment/index.js";
+import { environments } from "@public/assets/environment/index.js";
 import { statusLoading, percentLoading, onProgressCallBack } from "./store.js";
 
 // import { createBackground } from '../lib/three-vignette.js';
@@ -497,6 +497,7 @@ export class Viewer {
           onProgressCallBack.update((v) => (v = !v));
         },
         function (e) {
+          console.log("err load: ", e);
           console.error(e);
         }
       );
