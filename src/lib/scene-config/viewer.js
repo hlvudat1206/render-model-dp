@@ -20,7 +20,7 @@ import {
   sRGBEncoding,
   LinearToneMapping,
   ACESFilmicToneMapping,
-} from "../../../build/three.module";
+} from "@build/three.module";
 import Stats from "@js/stats.module.js";
 import { GLTFLoader } from "@js/GLTFLoader.js";
 import { KTX2Loader } from "@js/KTX2Loader.js";

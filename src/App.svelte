@@ -14,16 +14,9 @@
   import { ResizeObserverSingleton } from "svelte/internal";
 
   let scene;
-  // let motoModel = "src/models/motorcycle/honda/motorbike.gltf";
-  // let motoModel = "src/models/bedroom/scene.gltf";
-  // let motoModel = "src/models/livingRoom/scene.gltf";
-  let motoModel = "src/models/rustybike/scene.gltf";
+
+  let motoModel = "./models/motorcycle/honda/motorbike.gltf";
   let modelList = [
-    // {
-    //   id: 1,
-    //   path: "src/models/motorcycle/honda/motorbike.gltf",
-    //   image: "src/models/motorcycle/honda/motocycle.png",
-    // },
     {
       id: 1,
       path: "./models/motorcycle/honda/motorbike.gltf",
@@ -57,7 +50,7 @@
     {
       id: 6,
       path: "./models/livingRoom/scene.gltf",
-      image: "./models/livingRoom/livingRoom.png",
+      image: "./models/livingRoom/livingroom.png",
     },
     {
       id: 7,
@@ -518,7 +511,7 @@
     filter: blur(15px);
     opacity: 0.9;
     content: " ";
-    background: lightblue url("src/assets/bluesky.jpg") no-repeat fixed center;
+    background: lightblue url("./assets/bluesky.jpg") no-repeat fixed center;
     background-size: cover;
   }
 

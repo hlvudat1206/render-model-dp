@@ -12,13 +12,13 @@ export const environments = [
   {
     id: "venice-sunset",
     name: "Venice Sunset",
-    path: "./public/assets/environment/venice_sunset_1k.exr", //'https://storage.googleapis.com/donmccurdy-static/venice_sunset_1k.exr',
+    path: "./assets/environment/venice_sunset_1k.exr", //'https://storage.googleapis.com/donmccurdy-static/venice_sunset_1k.exr',
     format: ".exr",
   },
   {
     id: "footprint-court",
     name: "Footprint Court (HDR Labs)",
-    path: "./public/assets/environment/footprint_court_2k.exr",
+    path: "./assets/environment/footprint_court_2k.exr",
     format: ".exr",
   },
 ];
