@@ -19,10 +19,15 @@
   // let motoModel = "src/models/livingRoom/scene.gltf";
   let motoModel = "src/models/rustybike/scene.gltf";
   let modelList = [
+    // {
+    //   id: 1,
+    //   path: "src/models/motorcycle/honda/motorbike.gltf",
+    //   image: "src/models/motorcycle/honda/motocycle.png",
+    // },
     {
       id: 1,
-      path: "src/models/motorcycle/honda/motorbike.gltf",
-      image: "src/models/motorcycle/honda/motocycle.png",
+      path: "./models/motorcycle/honda/motorbike.gltf",
+      image: "./models/motorcycle/honda/motocycle.png",
     },
     {
       id: 2,
